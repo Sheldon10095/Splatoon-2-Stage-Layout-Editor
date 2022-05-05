@@ -5,6 +5,6 @@
 	path = Toolbox.Core
 	url = https://github.com/KillzXGaming/Toolbox.Core
 	branch = map-studio
-[submodule "MapStudioUI"]
-	path = MapStudioUI
+[submodule "MapStudio.UI"]
+	path = MapStudio.UI
 	url = https://github.com/MapStudioProject/MapStudio.UI
