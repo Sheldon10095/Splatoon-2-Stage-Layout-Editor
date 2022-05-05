@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\..\Track Studio\bin\Debug\net5.0\plugins\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\..\Track Studio\bin\Release\net5.0\plugins\</OutputPath>
+	</PropertyGroup>	
+  <ItemGroup>
+    <ProjectReference Include="..\..\GLFrameworkEngine\GLFrameworkEngine.csproj" />
+    <ProjectReference Include="..\..\MapStudio.UI\MapStudio.UI.csproj" />
+    <ProjectReference Include="..\..\Toolbox.Core\Toolbox.Core.csproj" />
+    <ProjectReference Include="..\CafeLibrary\CafeLibrary.csproj" />
+  </ItemGroup>	
+  <ItemGroup>
+    <Reference Include="BfresLibrary">
+      <HintPath>..\..\Track Studio\Lib\BfresLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ByamlExt">
+      <HintPath>..\..\Track Studio\Lib\ByamlExt.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>..\..\Track Studio\Lib\ImGui.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\Track Studio\Lib\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="Syroot.BinaryData">
+      <HintPath>..\..\Track Studio\Lib\Syroot.BinaryData.dll</HintPath>
+    </Reference>
+    <Reference Include="Syroot.Maths">
+      <HintPath>..\..\Track Studio\Lib\Syroot.Maths.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
