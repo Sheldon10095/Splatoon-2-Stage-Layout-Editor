@@ -1,4 +1,4 @@
-# Sample-Editor
+# Splatoon 2 Stage Layout Editor
 A sample project for making map editors with the map studio engine. 
 
 ## Libraries
