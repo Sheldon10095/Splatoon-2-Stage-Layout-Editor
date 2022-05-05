@@ -67,13 +67,11 @@ namespace SampleMapEditor
                             //model.IsVisible = false;
                             //Console.WriteLine($"Hiding model: {model.Name}");
                             state = false;
-                            if ((model.Name.StartsWith("Fld_") &&
-                                //!(model.Name.EndsWith("_Map") || model.Name.EndsWith("_drcmap"))))
-                                model.Name.EndsWith("_DV")))
+                            if (model.Name.StartsWith("Fld_") &&
+                                model.Name.EndsWith("_DV")) //!(model.Name.EndsWith("_Map") || model.Name.EndsWith("_drcmap"))))
                             {
                                 state = true;
                             }
-                            //else state = true;
                         }
 
                         model.IsVisible = state;
