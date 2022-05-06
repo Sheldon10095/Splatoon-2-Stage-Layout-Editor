@@ -72,7 +72,6 @@ namespace SampleMapEditor
             return footer == "nisasyst";
         }
 
-        //public static BYAML DecryptByaml(SARC.SarcEntry entry)
         public static BymlFileData DecryptByaml(SARC.FileEntry entry)
         {
             UInt32 crc = Crc32.Compute(entry.FileName);
@@ -110,13 +109,9 @@ namespace SampleMapEditor
                 decData = ms.ToArray();
             }
 
-            //entry.FileData = decData;
-
-            //BYAML byml = new BYAML();
             BymlFileData byml;
             using (MemoryStream memoryStream = new MemoryStream(decData))
             {
-                //byml.Load(memoryStream);
                 byml = ByamlFile.LoadN(memoryStream);
             }
             return byml;
