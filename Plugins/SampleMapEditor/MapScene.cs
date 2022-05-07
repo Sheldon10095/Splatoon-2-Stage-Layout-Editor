@@ -67,8 +67,7 @@ namespace SampleMapEditor
                             //model.IsVisible = false;
                             //Console.WriteLine($"Hiding model: {model.Name}");
                             state = false;
-                            if (model.Name.StartsWith("Fld_") &&
-                                model.Name.EndsWith("_DV")) //!(model.Name.EndsWith("_Map") || model.Name.EndsWith("_drcmap"))))
+                            if (model.Name.StartsWith("Fld_") && model.Name.EndsWith("_DV")) //!(model.Name.EndsWith("_Map") || model.Name.EndsWith("_drcmap"))))
                             {
                                 state = true;
                             }
@@ -118,7 +117,8 @@ namespace SampleMapEditor
                     o.Transform.RotationEulerDegrees = EditorLoader.GetObjRotation(mapObj);
                     //o.Color = new Vector4(0.5F, 0.5F, 0.5F, 0.5F);
                     o.Transform.UpdateMatrix(true);
-                    //loader.AddRender(o);
+                    loader.AddRender(o);
+
 
                     //var min = o.Boundings.Box.Min;
                     //var max = o.Boundings.Box.Max;
