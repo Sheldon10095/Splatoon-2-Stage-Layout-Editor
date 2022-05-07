@@ -13,19 +13,19 @@ namespace SampleMapEditor
     public class Obj : SpatialObject, IByamlSerializable, IStageReferencable
     {
         [ByamlMember]
-        public bool IsLinkDest { get; set; }
+        public bool IsLinkDest { get; set; } = false;
         
         [ByamlMember]
         public string LayerConfigName { get; set; }
 
         [ByamlMember]
-        public string ModelName { get; set; } = null;
+        public string ModelName { get; set; } = "";
 
         [ByamlMember]
         public string UnitConfigName { get; set; }
 
         [ByamlMember]
-        public List<LinkInfo> Links { get; set; }
+        public List<LinkInfo> Links { get; set; } = new List<LinkInfo>();
 
 
 

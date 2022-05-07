@@ -70,8 +70,9 @@ namespace SampleMapEditor
 
             IsNewProject = true;
 
-            /*MapLoader = new MapLoader(this);
-            MapLoader.Init(this, isSwitch, model_path);*/
+            MapLoader = new MapLoader(this);
+            //MapLoader.Init(this, isSwitch, model_path);
+            MapLoader.Init(this);
 
             //Root.Header = "course_muunt.byaml";
             Root.Header = "Fld_Test01_Vss.byaml (HEADER)";
@@ -108,6 +109,8 @@ namespace SampleMapEditor
             //    editor.OnSave(Resources.CourseDefinition);
 
             //MapLoader.StageDefinition.Save(stream);
+
+            MapLoader.stageDefinition.Save(stream);
         }
     }
 }

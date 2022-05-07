@@ -105,7 +105,7 @@ namespace SampleMapEditor
                 }
             }*/
 
-            Objs?.ForEach(x => Console.WriteLine(x.UnitConfigName));
+            Objs?.ForEach(x => Console.WriteLine(x.UnitConfigName)); // [DEBUG] Log all object names
         }
 
         public void Save() { this.Save(originalPath); }
@@ -118,6 +118,7 @@ namespace SampleMapEditor
 
         public void Save(System.IO.Stream stream)
         {
+            Console.WriteLine("~ Called StageDefinition.Save(); ~");
             SaveMapObjList();
 
             //Convert editable rail paths to obj paths.
@@ -201,7 +202,7 @@ namespace SampleMapEditor
 
             //Order the obj list by ID from highest to smallest
             //This is very important for certain objs (like water boxes)
-            
+
             //Objs = Objs.OrderByDescending(x => x.ObjId).ToList(); // Sort the object list
 
             /*List<string> resNameList = new List<string>();
@@ -241,6 +242,8 @@ namespace SampleMapEditor
 
             //this.MapObjResList = resNameList.Reverse<string>().Distinct().ToList();
             //this.MapObjIdList = resIDList.OrderByDescending(x => x).Distinct().ToList();
+
+            Console.WriteLine("~ Called SaveMapObjList(); ~");
         }
 
 
@@ -281,6 +284,7 @@ namespace SampleMapEditor
                     ObjParams.Add((int)objParam);
                 }
             }*/
+            Console.WriteLine("~ Called StageDefinition.DeserializeByaml(); ~");
         }
 
         public void SerializeByaml(IDictionary<string, object> dictionary)
@@ -297,6 +301,8 @@ namespace SampleMapEditor
                 FirstCurve = "left";
             else
                 FirstCurve = "right";*/
+
+            Console.WriteLine("~ Called StageDefinition.SerializeByaml(); ~");
         }
     }
 }
