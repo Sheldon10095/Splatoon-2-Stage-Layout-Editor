@@ -71,7 +71,7 @@ namespace SampleMapEditor
             RouteChanges?.ForEach(x => x.DeserializeReferences(this));*/
 
             Objs?.ForEach(x => x.DeserializeReferences(this));
-            Rails?.ForEach(x => x.DeserializeReferences(this));
+            //Rails?.ForEach(x => x.DeserializeReferences(this));
 
             //Convert baked in tool obj paths to editable rail paths
             /*if (ObjPaths != null)
@@ -171,8 +171,8 @@ namespace SampleMapEditor
             SteerAssistPaths?.ForEach(x => x.SerializeReferences(this));
             RouteChanges?.ForEach(x => x.SerializeReferences(this));*/
 
-            Objs?.ForEach(x => x.SerializeReference(this));
-            Rails?.ForEach(x => x.SerializeReference(this));
+            Objs?.ForEach(x => x.SerializeReferences(this));
+            //Rails?.ForEach(x => x.SerializeReferences(this));
 
             BymlData.RootNode = ByamlSerialize.Serialize(this);
             ByamlFile.SaveN(stream, BymlData);
@@ -261,9 +261,9 @@ namespace SampleMapEditor
 
 
         // ---- Rails ----
-
-        [ByamlMember("Rails", Optional = true)]
-        public List<Rail> Rails { get; set; }
+#warning Uncomment this once Rail is defined!
+        //[ByamlMember("Rails", Optional = true)]
+        //public List<Rail> Rails { get; set; }
 
 
 

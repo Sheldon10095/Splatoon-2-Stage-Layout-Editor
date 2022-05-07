@@ -10,7 +10,11 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutputPath>..\..\Track Studio\bin\Release\net5.0\plugins\</OutputPath>
-	</PropertyGroup>	
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="fasterflect" Version="3.0.0" />
+	</ItemGroup>	
   <ItemGroup>
     <ProjectReference Include="..\..\GLFrameworkEngine\GLFrameworkEngine.csproj" />
     <ProjectReference Include="..\..\MapStudio.UI\MapStudio.UI.csproj" />
