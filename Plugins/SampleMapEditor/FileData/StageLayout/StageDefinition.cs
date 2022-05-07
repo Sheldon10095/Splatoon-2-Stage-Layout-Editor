@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ByamlExt.Byaml;
+using CafeLibrary;
 using Toolbox.Core;
+using Toolbox.Core.IO;
 
 namespace SampleMapEditor
 {
@@ -178,7 +181,44 @@ namespace SampleMapEditor
             //Rails?.ForEach(x => x.SerializeReferences(this));
 
             BymlData.RootNode = ByamlSerialize.Serialize(this);
-            ByamlFile.SaveN(stream, BymlData);
+            ByamlFile.SaveN(stream, BymlData); // Used for saving as byaml
+
+            /*string testDir = @"%userprofile%\Documents\GameMods\Switch\Splatoon2\v550\CustomStageLayouts";
+            string testFilePath = $@"{testDir}\TestArchive.sarc";*/
+            
+            /* Broken.
+            SARC archive = new SARC();
+            SarcData sdata = new SarcData();
+            // Add some data to the file
+            byte[] testData = new byte[] { (byte)'Y', (byte)'B', 0x00, 0x00 };
+            //byte[] testData = ByamlFile.SaveN(BymlData);
+            archive.AddFile(new ArchiveFileInfo() { FileName = "TestEntry.bin", FileData = new MemoryStream(testData)});
+            archive.SarcData = sdata;
+            archive.Save(new FileStream(testFilePath, FileMode.Create));
+
+            //ArchiveFileInfo aFI = new ArchiveFileInfo();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                ByamlFile.SaveN(ms, BymlData);
+                //aFI.FileData = ms;
+            }
+
+            //aFI.SetData()
+
+            SARC arc = new SARC();
+            var d = ByamlFile.SaveN(BymlData);
+            ArchiveFileInfo afi = new ArchiveFileInfo();
+            //afi.FileData = new MemoryStream(d);
+            //afi.FileData = ByamlFile.LoadN()
+            afi.SetData(d);
+            afi.FileName = "Fld_CustomStage00_Vss.byaml";
+            //arc.SarcData.Files.Add("Fld_CustomStage00_Vss.byaml", d);
+            arc.AddFile(afi);
+            arc.Save(stream);
+
+            /*BymlFileData bymlFileData = new BymlFileData();
+            bymlFileData = ByamlFile.LoadN(stream, false);
+            arc.AddFile(new ArchiveFileInfo());*/
 
             //Re add converted obj paths back to rails for editors
             /*foreach (var path in converted)

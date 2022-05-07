@@ -79,7 +79,8 @@ namespace SampleMapEditor
             Root.Tag = this;
 
             //FileInfo.FileName = "course_muunt.byaml";
-            FileInfo.FileName = "Fld_Test01_Vss.byaml";
+            //FileInfo.FileName = "Fld_Test01_Vss.byaml";
+            FileInfo.FileName = "Fld_Test01_Vss.byaml.szs2";
 
             //Setup(MapLoader);
 
