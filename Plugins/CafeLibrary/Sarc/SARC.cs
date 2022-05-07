@@ -38,6 +38,12 @@ namespace CafeLibrary
         public SARC()
         {
             FileInfo = new File_Info();
+            // new
+            SarcData = new SarcData()
+            {
+                endianness = Syroot.BinaryData.ByteOrder.LittleEndian,
+                Files = new Dictionary<string, byte[]>(),
+            };
         }
 
         public static byte[] GetFile(string sarcPath, string file)
