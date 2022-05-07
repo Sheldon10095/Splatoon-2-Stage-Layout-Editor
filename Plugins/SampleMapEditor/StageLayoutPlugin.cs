@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Core;
+using SampleMapEditor.LayoutEditor;
 
 namespace SampleMapEditor
 {
@@ -25,7 +26,7 @@ namespace SampleMapEditor
         /// </summary>
         public File_Info FileInfo { get; set; }
 
-        //public MapLoader MapLoader;
+        public MapLoader MapLoader;
 
 
 
@@ -94,8 +95,8 @@ namespace SampleMapEditor
         {
             string workingDir = MapStudio.UI.Workspace.ActiveWorkspace.Resources.ProjectFile.WorkingDirectory;
 
-            //MapLoader = new MapLoader(this);
-            //MapLoader.Load(this, FileInfo.FolderPath, FileInfo.FilePath, workingDir);
+            MapLoader = new MapLoader(this);
+            MapLoader.Load(this, FileInfo.FolderPath, FileInfo.FilePath, workingDir);
 
             //Setup(MapLoader);
             //MapLoader.SetupLighting();

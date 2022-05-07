@@ -104,6 +104,8 @@ namespace SampleMapEditor
                     }
                 }
             }*/
+
+            Objs?.ForEach(x => Console.WriteLine(x.UnitConfigName));
         }
 
         public void Save() { this.Save(originalPath); }

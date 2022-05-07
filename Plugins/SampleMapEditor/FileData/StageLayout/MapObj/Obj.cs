@@ -29,7 +29,8 @@ namespace SampleMapEditor
 
 
 
-
+        [ByamlMember(Optional = true)]
+        public int Team { get; set; }
 
 
 
