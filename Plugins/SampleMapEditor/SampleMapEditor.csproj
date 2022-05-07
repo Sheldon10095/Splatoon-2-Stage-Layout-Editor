@@ -40,6 +40,9 @@
     <Reference Include="Syroot.Maths">
       <HintPath>..\..\Track Studio\Lib\Syroot.Maths.dll</HintPath>
     </Reference>
+  </ItemGroup>	
+  <ItemGroup>
+    <Folder Include="Editors\FileLoaders\" />
   </ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@ namespace SampleMapEditor
 
         public Plugin()
         {
-            //UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Custom Stage", null);
+            UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Custom Stage", typeof(StageLayoutPlugin));
 
             //Load plugin specific data. This is where the game path is stored.
             if (!PluginConfig.init)
