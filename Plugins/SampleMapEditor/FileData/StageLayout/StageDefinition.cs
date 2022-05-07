@@ -262,7 +262,7 @@ namespace SampleMapEditor
 
         // ---- Rails ----
 
-        [ByamlMember("Rails")]
+        [ByamlMember("Rails", Optional = true)]
         public List<Rail> Rails { get; set; }
 
 
