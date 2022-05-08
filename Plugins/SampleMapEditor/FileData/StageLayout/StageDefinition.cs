@@ -21,6 +21,7 @@ namespace SampleMapEditor
         // TEST func
         //private FileInfo originalFileInfo => new FileInfo(originalPath);
         private string stageName = "Fld_Custom01_Vss";
+        private string bymlFileName => originalPath != String.Empty ? new FileInfo(originalPath).Name + ".byaml" : "Fld_Custom01_Vss.byaml";
 
         private BymlFileData BymlData;
 
@@ -38,7 +39,8 @@ namespace SampleMapEditor
         {
             Console.WriteLine($"StageDefinition Ctor : Filename = {fileName}");
             originalPath = fileName;
-            stageName = new FileInfo(originalPath).Name; // Test line
+            //stageName = new FileInfo(originalPath).Name; // Test line
+            stageName = Path.GetFileNameWithoutExtension(originalPath);
 
             Console.WriteLine("StageDefinition Ctor called ->   StageDefinition(string)");
             Load(System.IO.File.OpenRead(fileName));
@@ -202,10 +204,8 @@ namespace SampleMapEditor
             //ByamlFile.SaveN(stream, BymlData); // Used for saving as byaml
 
             SARC arc = new SARC();
-            //arc.SarcData.Files.Clear();
             arc.SarcData.Files.Add(bymlName, ByamlFile.SaveN(BymlData));
             arc.Save(stream);
-            //arc.SaveCompressed(stream);
 
 
             /*BymlFileData bymlFileData = new BymlFileData();

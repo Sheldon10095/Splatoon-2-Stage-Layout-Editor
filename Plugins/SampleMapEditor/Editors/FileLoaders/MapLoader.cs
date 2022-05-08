@@ -39,7 +39,7 @@ namespace SampleMapEditor.LayoutEditor
 
 
         /// <summary>
-        /// Initiates an empty stage with no objects placed
+        /// Initiates an empty stage with no objects placed (Except for 2 Respawn Points)
         /// </summary>
         public void Init(StageLayoutPlugin plugin) // "bool isSwitch" and "string model_path" are unnecessary here
         {

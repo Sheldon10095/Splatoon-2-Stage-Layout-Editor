@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Core;
 using SampleMapEditor.LayoutEditor;
+using Toolbox.Core.ViewModels;
 
 namespace SampleMapEditor
 {
@@ -53,6 +54,11 @@ namespace SampleMapEditor
         };
 
 
+        /*public override void RenderSaveFileSettings()
+        {
+            //Console.WriteLine("~ Called StageLayoutPlugin.RenderSaveFileSettings(); ~");
+        }*/
+
 
         public bool Identify(File_Info fileInfo, Stream stream)
         {
@@ -78,21 +84,59 @@ namespace SampleMapEditor
             MapLoader.Init(this);
 
             //Root.Header = "course_muunt.byaml";
-            Root.Header = "Fld_Test01_Vss.byaml (HEADER)";
+            Root.Header = "Fld_CustomStage01_Vss.byaml (HEADER)";
             Root.Tag = this;
 
             //FileInfo.FileName = "course_muunt.byaml";
             //FileInfo.FileName = "Fld_Test01_Vss.byaml";
-            FileInfo.FileName = "Fld_Test01_Vss.szs";
+            FileInfo.FileName = "Fld_CustomStage01_Vss.szs";
+            FileInfo.Compression = new Yaz0();
 
-            //Setup(MapLoader);
+            Setup(MapLoader);
 
             return true;
         }
 
 
+        public void LoadProject()
+        {
+            var projectFile = Workspace.Resources.ProjectFile;
+
+            foreach (var editor in this.Editors)
+            {
+                if (editor.Name == projectFile.ActiveEditor)
+                    SubEditor = editor.Name;
+            }
+            if (!string.IsNullOrEmpty(projectFile.SelectedWorkspace))
+            {
+                if (Enum.TryParse(typeof(FileEditorMode), projectFile.SelectedWorkspace, out object? mode))
+                {
+                    this.EditorMode = (FileEditorMode)mode;
+                    ReloadEditorMode();
+                }
+            }
+        }
+
+        public void SaveProject(string folder)
+        {
+            Workspace.Resources.ProjectFile.ActiveEditor = this.ActiveEditor.Name;
+            Workspace.Resources.ProjectFile.SelectedWorkspace = this.EditorMode.ToString();
+
+            //SaveProjectFile(folder, MapLoader.BfresEditor);
+            //SaveProjectFile(folder, MapLoader.CollisionFile);
+            /*    SaveProjectFile(folder, MapLoader.BgenvFile);
+                if (MapLoader.MapCamera != null)
+                    MapLoader.MapCamera.Save($"{folder}\\course_mapcamera.bin");
+                if (MapLoader.MapTexture != null && MapLoader.MapTexture is BflimTexture)
+                    ((BflimTexture)MapLoader.MapTexture).Save(File.OpenWrite($"{folder}\\course_maptexture.bflim"));*/
+        }
 
 
+        private void SaveProjectFile(string folder, IFileFormat fileFormat)
+        {
+            if (fileFormat != null)
+                fileFormat.Save(File.OpenWrite($"{folder}\\{fileFormat.FileInfo.FileName}"));
+        }
 
 
 
@@ -117,6 +161,30 @@ namespace SampleMapEditor
             //if (IsNewProject)
             Console.WriteLine($"~ Called StageLayoutPlugin.Save(stream); ~");
             MapLoader.stageDefinition.Save(stream);
+        }
+
+
+
+
+        public void Setup(MapLoader mapResources)
+        {
+            var stage = mapResources.stageDefinition;
+
+            Root.ContextMenus.Clear();
+            Root.ContextMenus.Add(new MenuItemModel("MENU ITEM MODEL TEST THING ~ SETUP"), false);
+
+
+            // ~
+
+
+            Workspace.OnProjectLoad += delegate
+            {
+                LoadProject();
+            };
+            Workspace.OnProjectSave += delegate
+            {
+                SaveProject(Workspace.Resources.ProjectFolder);
+            };
         }
     }
 }
