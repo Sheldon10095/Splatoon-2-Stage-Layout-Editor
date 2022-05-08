@@ -38,7 +38,7 @@ namespace SampleMapEditor
         {
             Console.WriteLine($"StageDefinition Ctor : Filename = {fileName}");
             originalPath = fileName;
-            //stageName = ; // Test line
+            stageName = new FileInfo(originalPath).Name; // Test line
 
             Console.WriteLine("StageDefinition Ctor called ->   StageDefinition(string)");
             Load(System.IO.File.OpenRead(fileName));
@@ -57,11 +57,8 @@ namespace SampleMapEditor
         private void Load(System.IO.Stream stream)
         {
             SARC arc = new SARC();
-            //arc = (SARC)STFileLoader.OpenFileFormat(stream, originalPath);
-            Console.WriteLine("Calling arc.Load(stream);");
             //arc.Load(stream);
             arc.Load(new Yaz0().Decompress(stream));
-            Console.WriteLine("Called arc.Load(stream);");
             BymlData = ByamlFile.LoadN(arc.files[0].FileData, false);
 
 
@@ -204,48 +201,12 @@ namespace SampleMapEditor
             BymlData.RootNode = ByamlSerialize.Serialize(this);
             //ByamlFile.SaveN(stream, BymlData); // Used for saving as byaml
 
-            string testDir = @"C:\Users\Alex\Documents\GameMods\Switch\Splatoon2\v550\CustomStageLayouts";
-            string testFilePath = $@"{testDir}\TestArchive.sarc";
-
-
             SARC arc = new SARC();
+            //arc.SarcData.Files.Clear();
             arc.SarcData.Files.Add(bymlName, ByamlFile.SaveN(BymlData));
             arc.Save(stream);
+            //arc.SaveCompressed(stream);
 
-
-            //arc.SarcData.Files.Add("TestFile.bin", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
-            //arc.Save(new FileStream(testFilePath, FileMode.Create));
-
-            
-            /* Broken.
-            SARC archive = new SARC();
-            SarcData sdata = new SarcData();
-            // Add some data to the file
-            byte[] testData = new byte[] { (byte)'Y', (byte)'B', 0x00, 0x00 };
-            //byte[] testData = ByamlFile.SaveN(BymlData);
-            archive.AddFile(new ArchiveFileInfo() { FileName = "TestEntry.bin", FileData = new MemoryStream(testData)});
-            archive.SarcData = sdata;
-            archive.Save(new FileStream(testFilePath, FileMode.Create));
-
-            //ArchiveFileInfo aFI = new ArchiveFileInfo();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                ByamlFile.SaveN(ms, BymlData);
-                //aFI.FileData = ms;
-            }
-
-            //aFI.SetData()
-
-            SARC arc = new SARC();
-            var d = ByamlFile.SaveN(BymlData);
-            ArchiveFileInfo afi = new ArchiveFileInfo();
-            //afi.FileData = new MemoryStream(d);
-            //afi.FileData = ByamlFile.LoadN()
-            afi.SetData(d);
-            afi.FileName = "Fld_CustomStage00_Vss.byaml";
-            //arc.SarcData.Files.Add("Fld_CustomStage00_Vss.byaml", d);
-            arc.AddFile(afi);
-            arc.Save(stream);
 
             /*BymlFileData bymlFileData = new BymlFileData();
             bymlFileData = ByamlFile.LoadN(stream, false);
