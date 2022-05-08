@@ -13,8 +13,10 @@ namespace SampleMapEditor
 {
     public class StageLayoutPlugin : FileEditor, IFileFormat
     {
-        public string[] Description => new string[] { "Byaml" };
-        public string[] Extension => new string[] { "*.byaml" };
+        //public string[] Description => new string[] { "Byaml" };
+        //public string[] Extension => new string[] { "*.byaml" };
+        public string[] Description => new string[] { "Stage Layout Data" };
+        public string[] Extension => new string[] { "*.szs" };
 
         /// <summary>
         /// Wether or not the file can be saved.
@@ -55,7 +57,8 @@ namespace SampleMapEditor
         public bool Identify(File_Info fileInfo, Stream stream)
         {
             //Just load maps from checking the byaml extension atm.
-            return fileInfo.Extension == ".byaml";
+            //return fileInfo.Extension == ".byaml";
+            return fileInfo.Extension == ".szs" && !fileInfo.FileName.Contains("Nin_NX_NVN");
         }
 
 
@@ -80,7 +83,7 @@ namespace SampleMapEditor
 
             //FileInfo.FileName = "course_muunt.byaml";
             //FileInfo.FileName = "Fld_Test01_Vss.byaml";
-            FileInfo.FileName = "Fld_Test01_Vss.byaml.szs2";
+            FileInfo.FileName = "Fld_Test01_Vss.szs";
 
             //Setup(MapLoader);
 
@@ -110,6 +113,8 @@ namespace SampleMapEditor
             //    editor.OnSave(Resources.CourseDefinition);
 
             //MapLoader.StageDefinition.Save(stream);
+
+            //if (IsNewProject)
 
             MapLoader.stageDefinition.Save(stream);
         }

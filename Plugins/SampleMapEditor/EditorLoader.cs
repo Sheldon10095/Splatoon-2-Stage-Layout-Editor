@@ -27,7 +27,7 @@ namespace SampleMapEditor
         /// <summary>
         /// The extension of the plugin. This should match whatever file you plan to open.
         /// </summary>
-        public string[] Extension => new string[] { "*.szs" };
+        public string[] Extension => new string[] { "*.szs2" };
 
         /// <summary>
         /// Determines if the plugin can save or not.
@@ -46,7 +46,7 @@ namespace SampleMapEditor
         /// </summary>
         public bool Identify(File_Info fileInfo, Stream stream)
         {
-            return fileInfo.Extension == ".szs";
+            return fileInfo.Extension == ".szs2";
         }
 
 
