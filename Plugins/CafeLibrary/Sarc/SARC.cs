@@ -43,6 +43,7 @@ namespace CafeLibrary
             {
                 endianness = Syroot.BinaryData.ByteOrder.LittleEndian,
                 Files = new Dictionary<string, byte[]>(),
+                HashOnly = false,
             };
         }
 
@@ -109,6 +110,22 @@ namespace CafeLibrary
                 ((Yaz0)FileInfo.Compression).Alignment = saved.Item1;
             }
         }
+
+        /*public void SaveCompressed(System.IO.Stream stream)
+        {
+            //Save data to stream
+            var saved = SARC_Parser.PackN(SarcData);
+            using (var writer = new FileWriter(stream))
+            {
+                writer.Write(YAZ0.Compress(saved.Item2));
+            }
+
+            //Save alignment to compression type yaz0
+            if (FileInfo.Compression != null && FileInfo.Compression is Yaz0)
+            {
+                ((Yaz0)FileInfo.Compression).Alignment = saved.Item1;
+            }
+        }*/
 
         public void Dispose()
         {
