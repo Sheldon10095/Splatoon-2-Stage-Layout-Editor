@@ -17,6 +17,10 @@ namespace SampleMapEditor
 
         //For saving back in the same place
         private string originalPath;
+        
+        // TEST func
+        //private FileInfo originalFileInfo => new FileInfo(originalPath);
+        private string stageName = "Fld_Custom01_Vss";
 
         private BymlFileData BymlData;
 
@@ -32,12 +36,17 @@ namespace SampleMapEditor
 
         public StageDefinition(string fileName)
         {
+            Console.WriteLine($"StageDefinition Ctor : Filename = {fileName}");
             originalPath = fileName;
+            //stageName = ; // Test line
+
+            Console.WriteLine("StageDefinition Ctor called ->   StageDefinition(string)");
             Load(System.IO.File.OpenRead(fileName));
         }
 
         public StageDefinition(System.IO.Stream stream)
         {
+            Console.WriteLine("StageDefinition Ctor called ->   StageDefinition(stream)");
             Load(stream);
         }
 
@@ -47,8 +56,16 @@ namespace SampleMapEditor
         /// <param name="stream">The stream from which the instance will be loaded.</param>
         private void Load(System.IO.Stream stream)
         {
+            SARC arc = new SARC();
+            //arc = (SARC)STFileLoader.OpenFileFormat(stream, originalPath);
+            Console.WriteLine("Calling arc.Load(stream);");
+            //arc.Load(stream);
+            arc.Load(new Yaz0().Decompress(stream));
+            Console.WriteLine("Called arc.Load(stream);");
+            BymlData = ByamlFile.LoadN(arc.files[0].FileData, false);
 
-            BymlData = ByamlFile.LoadN(stream, true);
+
+            //BymlData = ByamlFile.LoadN(stream, true);
             //   Console.WriteLine($"Loaded byaml! {fileName}");
             ByamlSerialize.Deserialize(this, BymlData.RootNode);
                Console.WriteLine("Deserialized byaml!");
@@ -124,6 +141,10 @@ namespace SampleMapEditor
             Console.WriteLine("~ Called StageDefinition.Save(); ~");
             SaveMapObjList();
 
+            string bymlName = $"{stageName}.byaml";
+            Console.WriteLine($"SARC File Name: {originalPath}");
+            Console.WriteLine($"BYML File Name: {bymlName}");
+
             //Convert editable rail paths to obj paths.
             /*List<Path> converted = Paths?.Where(x => x.UseAsObjPath == true).ToList();
             if (converted != null)
@@ -181,10 +202,20 @@ namespace SampleMapEditor
             //Rails?.ForEach(x => x.SerializeReferences(this));
 
             BymlData.RootNode = ByamlSerialize.Serialize(this);
-            ByamlFile.SaveN(stream, BymlData); // Used for saving as byaml
+            //ByamlFile.SaveN(stream, BymlData); // Used for saving as byaml
 
-            /*string testDir = @"%userprofile%\Documents\GameMods\Switch\Splatoon2\v550\CustomStageLayouts";
-            string testFilePath = $@"{testDir}\TestArchive.sarc";*/
+            string testDir = @"C:\Users\Alex\Documents\GameMods\Switch\Splatoon2\v550\CustomStageLayouts";
+            string testFilePath = $@"{testDir}\TestArchive.sarc";
+
+
+            SARC arc = new SARC();
+            arc.SarcData.Files.Add(bymlName, ByamlFile.SaveN(BymlData));
+            arc.Save(stream);
+
+
+            //arc.SarcData.Files.Add("TestFile.bin", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+            //arc.Save(new FileStream(testFilePath, FileMode.Create));
+
             
             /* Broken.
             SARC archive = new SARC();
@@ -341,6 +372,11 @@ namespace SampleMapEditor
                 FirstCurve = "left";
             else
                 FirstCurve = "right";*/
+
+            Objs.ForEach(x =>
+            {
+                if (x.ModelName == null) x.ModelName = "";
+            });
 
             Console.WriteLine("~ Called StageDefinition.SerializeByaml(); ~");
         }
