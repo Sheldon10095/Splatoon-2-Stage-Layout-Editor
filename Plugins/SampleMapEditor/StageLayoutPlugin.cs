@@ -115,7 +115,7 @@ namespace SampleMapEditor
             //MapLoader.StageDefinition.Save(stream);
 
             //if (IsNewProject)
-
+            Console.WriteLine($"~ Called StageLayoutPlugin.Save(stream); ~");
             MapLoader.stageDefinition.Save(stream);
         }
     }
