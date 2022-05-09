@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -129,6 +130,36 @@ namespace SampleMapEditor
                 System.Console.WriteLine($"Obj {ObjId} _pathIndex {_pathIndex}");
             if (_objPathIndex != null)
                 System.Console.WriteLine($"Obj {ObjId} _objPathIndex {_pathIndex}");*/
+        }
+
+
+        /*public Obj Clone()
+        {
+            return new Obj()
+            {
+                // ~ Fill out once Obj is fully defined ~
+            };
+        }*/
+
+
+
+
+        public static string GetResourceName(string actorName)
+        {
+            var db = GlobalSettings.ActorDatabase;
+            if (db.ContainsKey(actorName) && db[actorName].FmdbName.Length > 0)
+                return db[actorName].ResName;
+            else
+                return "";
+        }
+
+        public static string FindFilePath(string resName)
+        {
+            string resFilePath = GlobalSettings.GetContentPath($"Model/{resName}.Nin_NX_NVN.szs");
+
+            if (File.Exists(resFilePath)) return resFilePath;
+
+            return string.Empty;
         }
     }
 }
