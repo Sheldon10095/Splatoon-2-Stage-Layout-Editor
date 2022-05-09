@@ -15,7 +15,7 @@ namespace SampleMapEditor.LayoutEditor
 
         StageLayoutPlugin MapEditor { get; set; }
 
-        IToolWindowDrawer ToolWindowDrawer { get; set; }
+        IToolWindowDrawer ToolWindowDrawer { get; }
 
         List<IDrawable> Renderers { get; set; }
         NodeBase Root { get; set; }

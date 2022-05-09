@@ -133,13 +133,13 @@ namespace SampleMapEditor
         }
 
 
-        /*public Obj Clone()
+        public Obj Clone()
         {
             return new Obj()
             {
                 // ~ Fill out once Obj is fully defined ~
             };
-        }*/
+        }
 
 
 

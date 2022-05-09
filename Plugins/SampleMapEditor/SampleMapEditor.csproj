@@ -31,6 +31,9 @@
     <Reference Include="ImGui.NET">
       <HintPath>..\..\Track Studio\Lib\ImGui.NET.dll</HintPath>
     </Reference>
+    <Reference Include="IONET">
+      <HintPath>..\..\..\Sample-Editor\Track Studio\Lib\IONET.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\..\Track Studio\Lib\OpenTK.dll</HintPath>
     </Reference>
