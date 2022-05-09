@@ -79,6 +79,9 @@ namespace SampleMapEditor
         /// </summary>
         public void Reload()
         {
+            GlobalSettings.GamePath = S2GamePath;
+            GlobalSettings.AOCPath = S2AocPath;
+            GlobalSettings.ModOutputPath = S2ModPath;
         }
     }
 }

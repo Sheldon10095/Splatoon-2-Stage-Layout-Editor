@@ -29,6 +29,7 @@ namespace SampleMapEditor
         /// </summary>
         public static void LoadDataBase()
         {
+            Console.WriteLine("~ Called GlobalSettings.LoadDataBase() ~");
             if (ActorDatabase.Count > 0)
                 return;
 
@@ -50,14 +51,22 @@ namespace SampleMapEditor
 
         static void LoadActorDb()
         {
+            Console.WriteLine("~ Called GlobalSettings.LoadActorDb() ~");
             // Find the Mush pack and load it
             string path = GetContentPath($"Pack/Mush.release.pack");
+            /*if (!File.Exists(path))
+                return;*/
+
             if (!File.Exists(path))
+            {
+                Console.WriteLine($"File \"{path}\" could not be found!");
                 return;
+            }
 
             var actorDb = new ActorDefinitionDb(path);
             foreach (var actor in actorDb.Definitions)
             {
+                Console.WriteLine($"~ Adding Actor: {actor.Name}");
                 ActorDatabase.Add(actor.Name, actor);
             }
         }

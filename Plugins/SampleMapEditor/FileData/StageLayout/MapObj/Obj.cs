@@ -39,6 +39,13 @@ namespace SampleMapEditor
 
 
 
+        public Obj()
+        {
+            this.LayerConfigName = "Cmn";
+            this.UnitConfigName = "Obj_GeneralBox_15x15x15_Blitz";
+
+            this.Scale = new ByamlVector3F(1, 1, 1);
+        }
 
 
         // ---- METHODS (PUBLIC) ---------------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
-﻿using CafeLibrary.Rendering;
+﻿using CafeLibrary;
+using CafeLibrary.Rendering;
 using GLFrameworkEngine;
 using GLFrameworkEngine.UI;
 using ImGuiNET;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Core;
+using Toolbox.Core.IO;
 using Toolbox.Core.ViewModels;
 
 namespace SampleMapEditor.LayoutEditor
@@ -446,8 +448,27 @@ namespace SampleMapEditor.LayoutEditor
             }
 
             //Open a bfres resource if one exist.
-            if (System.IO.File.Exists(filePath))
-                render = new BfresRender(filePath, Root);
+            /*if (System.IO.File.Exists(filePath))  // for mk8. Splatoon 2 does it differently.
+                render = new BfresRender(filePath, Root);*/
+
+            // Open a bfres resource if one exists.
+            if (File.Exists(filePath))
+            {
+                Console.WriteLine(filePath);
+
+                SARC s = new SARC();
+                s.Load(new MemoryStream(YAZ0.Decompress(filePath)));
+                ArchiveFileInfo? bfres = s.files.Find(x => x.FileName == "output.bfres");
+                //if (s.files.Find(x => x.FileName == "output.bfres") != null)
+                if (bfres != null)
+                {
+                    Console.WriteLine($"File {bfres.FileName} has a model");
+                    render = new BfresRender(bfres.FileData, filePath);
+                }
+
+                //render = new BfresRender(filePath, Root);
+            }
+
             /*else if (name == "WaterBox") //Water boxes will have a custom area display.
                 render = new WaterBoxRender(Root);
             if (name == "Start") //Start objects display with a grid.
@@ -459,7 +480,7 @@ namespace SampleMapEditor.LayoutEditor
                 if (GlobalSettings.ActorDatabase.ContainsKey(obj.UnitConfigName))
                 {
                     //Obj requires specific model to display
-                    string modelName = GlobalSettings.ActorDatabase[obj.UnitConfigName].Name; // ??? - Not sure if Name should be changed to ResName or FmdbName
+                    string modelName = GlobalSettings.ActorDatabase[obj.UnitConfigName].FmdbName; // ??? - Not sure if Name should be changed to ResName or FmdbName
                     if (!string.IsNullOrEmpty(modelName))
                     {
                         foreach (var model in ((BfresRender)render).Models)
@@ -535,18 +556,20 @@ namespace SampleMapEditor.LayoutEditor
             }
             ActorInfo.Init();*/
 
-            /*render.AddCallback += delegate
+            render.AddCallback += delegate
             {
+                Console.WriteLine("~~ render.AddCallback called ~~");
                 Renderers.Add(render);
-                StudioSystem.Instance.AddActor(ActorInfo);
+                //StudioSystem.Instance.AddActor(ActorInfo);
             };
             render.RemoveCallback += delegate
             {
+                Console.WriteLine("~~ render.RemoveCallback called ~~");
                 //Remove actor data on disposing the object.
                 Renderers.Remove(render);
-                StudioSystem.Instance.RemoveActor(ActorInfo);
-                ActorInfo?.Dispose();
-            };*/
+                //StudioSystem.Instance.RemoveActor(ActorInfo);
+                //ActorInfo?.Dispose();
+            };
 
 
             //Custom frustum culling.
@@ -569,9 +592,12 @@ namespace SampleMapEditor.LayoutEditor
                 obj.Translate.Y,
                 obj.Translate.Z);
             render.Transform.RotationEulerDegrees = new OpenTK.Vector3(
-                obj.RotateDegrees.X,
+                obj.Rotate.X,
+                obj.Rotate.Y,
+                obj.Rotate.Z);
+                /*obj.RotateDegrees.X,
                 obj.RotateDegrees.Y,
-                obj.RotateDegrees.Z);
+                obj.RotateDegrees.Z);*/
             render.Transform.Scale = new OpenTK.Vector3(
                 obj.Scale.X,
                 obj.Scale.Y,
@@ -691,6 +717,7 @@ namespace SampleMapEditor.LayoutEditor
         //private EditableObject AddObject(int id, bool spawnAtCursor = false)
         private EditableObject AddObject(string actorName, bool spawnAtCursor = false)
         {
+            Console.WriteLine($"~ Called ObjectEditor.AddObject() ~");
             //Force added sky boxes to edit existing if possible
             if (GlobalSettings.ActorDatabase.ContainsKey(actorName))
             {
