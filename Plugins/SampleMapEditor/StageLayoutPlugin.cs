@@ -10,6 +10,7 @@ using Toolbox.Core;
 using SampleMapEditor.LayoutEditor;
 using Toolbox.Core.ViewModels;
 using GLFrameworkEngine;
+using OpenTK;
 
 namespace SampleMapEditor
 {
@@ -32,8 +33,8 @@ namespace SampleMapEditor
 
         public MapLoader MapLoader;
 
-        /*public ILayoutEditor ActiveEditor { get; set; }
-        public List<ILayoutEditor> Editors = new List<ILayoutEditor>();*/
+        public ILayoutEditor ActiveEditor { get; set; }
+        public List<ILayoutEditor> Editors = new List<ILayoutEditor>();
 
 
 
@@ -73,19 +74,19 @@ namespace SampleMapEditor
 
         private bool IsNewProject = false;
 
+        public bool FilterEditorsInOutliner = false;
 
-
-        /*FileEditorMode EditorMode = FileEditorMode.LayoutEditor;
+        FileEditorMode EditorMode = FileEditorMode.LayoutEditor;
 
         enum FileEditorMode
         {
             LayoutEditor,
-            *//*MapEditor,
-            ModelEditor,
-            CollisionEditor,
-            MinimapEditor,
-            LightingEditor,*//*
-        }*/
+            //MapEditor,
+            //ModelEditor,
+            //CollisionEditor,
+            //MinimapEditor,
+            //LightingEditor,
+        }
 
 
 
@@ -342,11 +343,410 @@ namespace SampleMapEditor
             //Load a custom map object category for the asset handler.
             Workspace.AddAssetCategory(new AssetViewMapObject());
             //Workspace.AddAssetCategory(new AssetViewMapObjectVR());
+
+
+
+
+
+            // Load the editor(s)
+            var colorSettings = GlobalSettings.PathDrawer;
+
+            // Section List
+
+            // Stage Info
+
+            // Objs / Rails (?)
+            Editors.Add(new ObjectEditor(this, stage.Objs));
+
+
+
+
+
+
+
+            foreach (var editor in Editors)
+                editor.MapEditor = this;
+            
+            if (Workspace.Resources.ProjectFile.ActiveWorkspaces.Count > 0)
+            {
+                foreach (var ed in Editors)
+                    ed.IsActive = Workspace.Resources.ProjectFile.ActiveWorkspaces.Contains(ed.Name);
+            }
+            else
+            {
+                foreach (var ed in Editors)
+                    ed.IsActive = false;
+
+                Editors[0].IsActive = true;
+            }
+
+
+            NodeBase pathFolder = new NodeBase("Paths");    // ???
+            NodeBase objFolder = new NodeBase("Objects");
+            
+            Root.Children.Clear();
+
+            foreach (var editor in Editors)
+            {
+                if (editor is ObjectEditor) // || editor is SoundObjEditor || editor is RouteChangeEditor)
+                    objFolder.AddChild(editor.Root);
+                else
+                    pathFolder.AddChild(editor.Root);
+            }
+
+            Root.AddChild(objFolder);
+            Root.AddChild(pathFolder);
+
+
+            // ~~~
+
+
+            foreach (var ed in Editors)
+            {
+                ed.Root.OnSelected += delegate
+                {
+                    if (ActiveEditor == ed)
+                        return;
+
+                    ActiveEditor = ed;
+                    UpdateLayoutEditor(ActiveEditor, false);    //UpdateMuuntEditor(ActiveEditor, false);
+                };
+                ed.Root.OnChecked += delegate
+                {
+                    foreach (var render in ed.Renderers)
+                        render.IsVisible = ed.Root.IsChecked;
+                };
+            }
+
+
+            //Set the active editor as the map object one.
+            ActiveEditor = Editors.FirstOrDefault();
+            UpdateLayoutEditor(ActiveEditor);
+
+            Workspace.WorkspaceTools.Add(new MenuItemModel(
+               $"   {'\uf279'}    Map Editor", () =>
+               {
+                   EditorMode = FileEditorMode.LayoutEditor;
+                   ReloadEditorMode();
+               }));
+        }
+
+        public override void DrawViewportMenuBar()
+        {
+            ActiveEditor.DrawEditMenuBar();
+        }
+
+        public override void DrawHelpWindow()
+        {
+            base.DrawHelpWindow();
+
+            if (ImGuiNET.ImGui.CollapsingHeader("Editors", ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen))
+            {
+                ImGuiHelper.BoldTextLabel("Alt + Click", "Add.");
+                ImGuiHelper.BoldTextLabel("Del", "Delete.");
+                ImGuiHelper.BoldTextLabel("Hold Ctrl", "Multi select.");
+            }
+
+            ActiveEditor?.DrawHelpWindow();
+        }
+
+
+        private Camera _camera;
+
+
+
+        public override void AfterLoaded()
+        {
+            /*if (this.IsNewProject)
+            {
+                this.EditorMode = FileEditorMode.ModelEditor;
+                ReloadEditorMode();
+                Workspace.ActiveWorkspaceTool = Workspace.WorkspaceTools[1];
+            }*/
+        }
+
+
+        private void ReloadEditorMode()
+        {
+            GLContext.ActiveContext.Camera = _camera;
+
+            Workspace.Outliner.DeselectAll();
+            Workspace.Outliner.Nodes.Clear();
+
+
+            if (this.EditorMode == FileEditorMode.LayoutEditor)
+            {
+                Workspace.ActiveEditor = this;
+                Workspace.SetupActiveEditor(this);
+                Workspace.ReloadEditors();
+            }
+
+            GLContext.ActiveContext.UpdateViewport = true;
+        }
+
+
+        /*public override List<MenuItemModel> GetViewportMenuIcons()
+        {
+            List<MenuItemModel> menus = new List<MenuItemModel>();
+
+            if (LightingEditorWindow != null)
+            {
+                menus.Add(new MenuItemModel($" {IconManager.LIGHT_ICON} ", () =>
+                {
+                    LightingEditorWindow.Opened = !LightingEditorWindow.Opened;
+                    Workspace.ActiveWorkspace.ReloadViewportMenu();
+
+                }, "LIGHTING_WINDOW", LightingEditorWindow.Opened));
+            }
+
+            return menus;
+        }*/
+
+        /*public override List<MenuItemModel> GetViewMenuItems()
+        {
+            List<MenuItemModel> menus = new List<MenuItemModel>();
+
+            if (MapLoader.BfresEditor != null)
+                menus.AddRange(MapLoader.BfresEditor.GetViewMenuItems());
+
+            menus.Add(new MenuItemModel($"      {IconManager.MESH_ICON}      Show Collision", () =>
+            {
+                CollisionRender.Overlay = false;
+                CollisionRender.DisplayCollision = !CollisionRender.DisplayCollision;
+                if (MapLoader.BfresEditor != null)
+                    MapLoader.BfresEditor.Renderer.IsVisible = !CollisionRender.DisplayCollision;
+
+                Workspace.ActiveWorkspace.ReloadViewportMenu();
+                GLContext.ActiveContext.UpdateViewport = true;
+            }, "DISPLAY_COLLISION", CollisionRender.DisplayCollision));
+
+            menus.Add(new MenuItemModel($"      {IconManager.MODEL_ICON}      Show Collision Overlay", () =>
+            {
+                CollisionRender.Overlay = !CollisionRender.Overlay;
+                CollisionRender.DisplayCollision = false;
+                if (MapLoader.BfresEditor != null)
+                    MapLoader.BfresEditor.Renderer.IsVisible = true;
+
+                Workspace.ActiveWorkspace.ReloadViewportMenu();
+                GLContext.ActiveContext.UpdateViewport = true;
+            }, "COLLISION_OVERLAY", CollisionRender.Overlay));
+            return menus;
+        }*/
+
+
+        public override List<MenuItemModel> GetFilterMenuItems()
+        {
+            List<MenuItemModel> items = new List<MenuItemModel>();
+            items.Add(new MenuItemModel("Filter Nodes By Editor", (sender, e)=>
+            {
+                FilterEditorsInOutliner = ((MenuItemModel)sender).IsChecked;
+                ReloadOutliner(false);
+            }, "", FilterEditorsInOutliner)
+            { CanCheck = true });
+            return items;
+        }
+
+
+        /*public void AutoGenerateCollision()
+        {
+            var models = MapLoader.BfresEditor.ModelFolder.Models.FirstOrDefault();
+            if (models == null)
+            {
+                TinyFileDialog.MessageBoxInfoOk("No models found in scene!");
+                return;
+            }
+
+            //Turn into an exportable scene for collision conversion
+            var scene = BfresModelExporter.FromGeneric(models.ResFile, models.Model);
+            MapLoader.CollisionFile.ImportCollision(scene);
+        }*/
+
+
+        /*public override List<MenuItemModel> GetEditMenuItems()
+        {
+            var items = new List<MenuItemModel>();
+            //Import menus for collision
+            items.AddRange(MapLoader.CollisionFile.GetEditMenuItems());
+            items.Add(new MenuItemModel("        Auto Generate Collision From Bfres", AutoGenerateCollision));
+            return items;
+        }*/
+
+        Vector3 previousPosition = Vector3.Zero;
+
+        public override void DrawToolWindow()
+        {
+            /*if (ImGuiNET.ImGui.CollapsingHeader("Transform Scene"))
+            {
+                var transform = MapLoader.BfresEditor.Renderer.Transform;
+                if (ImGuiHelper.InputTKVector3("Position", transform, "Position"))
+                {
+                    transform.UpdateMatrix(true);
+
+                    if (previousPosition == Vector3.Zero)
+                        previousPosition = transform.Position;
+
+                    Vector3 positionDelta = transform.Position - previousPosition;
+
+                    previousPosition = transform.Position;
+
+                    MapLoader.CollisionFile.CollisionRender.Transform.TransformMatrix = transform.TransformMatrix;
+                    MapLoader.CollisionFile.UpdateTransformedVertices = true;
+
+                    //Transform each byaml object
+                    foreach (var editor in this.Editors)
+                    {
+                        foreach (ITransformableObject render in editor.Renderers)
+                        {
+                            if (render is RenderablePath)
+                            {
+                                ((RenderablePath)render).TranslateDelta(positionDelta);
+                            }
+                            else
+                            {
+                                render.Transform.Position += positionDelta;
+                                render.Transform.UpdateMatrix(true);
+                            }
+                        }
+                    }
+                }
+            }*/
+
+            if (ActiveEditor != null)
+                ActiveEditor.ToolWindowDrawer?.Render();
+        }
+
+        private void UpdateLayoutEditor(ILayoutEditor editor, bool filterVisuals = true)
+        {
+            //Enable/Disable "Active" editors which determine to use shorts ie alt mouse click to spawn
+            foreach (var ed in Editors)
+            {
+                ed.IsActive = ed == editor;
+                foreach (var render in ed.Renderers)
+                {
+                    if (render is RenderablePath)
+                        ((RenderablePath)render).IsActive = ed.IsActive;
+                }
+            }
+            ActiveEditor = editor;
+
+            Workspace.ActiveWorkspace.ReloadEditors();
+            ReloadOutliner(filterVisuals);
+        }
+
+
+        public void ReloadOutliner(bool filterVisuals)
+        {
+            //   if (FilterEditorsInOutliner)
+            //   Root.Children.Clear();
+
+            if (filterVisuals)
+            {
+                //   Workspace.Outliner.DeselectAll();
+                Scene.DeselectAll(GLContext.ActiveContext);
+
+                foreach (var editor in Editors)
+                    HideRenders(editor);
+            }
+            foreach (var editor in Editors)
+            {
+                if (editor.IsActive)
+                {
+                    editor.ReloadEditor();
+                    //  if (FilterEditorsInOutliner)
+                    //    Root.AddChild(editor.Root);
+                }
+
+                if (filterVisuals)
+                    editor.Root.IsChecked = editor.IsActive;
+                if (filterVisuals && editor.IsActive)
+                {
+                    foreach (var render in editor.Renderers)
+                        render.IsVisible = true;
+                }
+            }
+
+            GLContext.ActiveContext.UpdateViewport = true;
         }
 
 
 
+        public override List<UIFramework.DockWindow> PrepareDocks()
+        {
+            List<UIFramework.DockWindow> windows = new List<UIFramework.DockWindow>();
+            windows.Add(Workspace.Outliner);
+            /*if (LightingEditorWindow != null)
+                windows.Add(LightingEditorWindow);*/
+            windows.Add(Workspace.PropertyWindow);
+            windows.Add(Workspace.ConsoleWindow);
+            windows.Add(Workspace.AssetViewWindow);
+            windows.Add(Workspace.HelpWindow);
+            windows.Add(Workspace.ToolWindow);
+            windows.Add(Workspace.ViewportWindow);
+            return windows;
+        }
 
-        private Camera _camera;
+        /*public override bool OnFileDrop(string filePath)
+        {
+            if (filePath.EndsWith(".kcl"))
+            {
+                MapLoader.LoadColllsion(filePath);
+                return true;
+            }
+            if (MapLoader.CollisionFile.OnFileDrop(filePath))
+            {
+                return true;
+            }
+            return false;
+        }*/
+
+        public override void AssetViewportDrop(AssetItem item, Vector2 screenCoords)
+        {
+            var asset = item as MapObjectAsset;
+            if (asset == null)
+                return;
+
+            //((ObjectEditor)Editors[0]).OnAssetViewportDrop(asset.ObjID, screenCoords);
+            ((ObjectEditor)Editors[0]).OnAssetViewportDrop(asset.Name, screenCoords);
+        }
+
+        private void HideRenders(ILayoutEditor editor)
+        {
+            foreach (var render in editor.Renderers)
+            {
+                render.IsVisible = false;
+                if (render is IEditModeObject)
+                {
+                    Scene.DisableEditMode((ITransformableObject)render);
+                    foreach (var part in ((IEditModeObject)render).Selectables)
+                        part.CanSelect = false;
+                }
+                else
+                    ((ITransformableObject)render).CanSelect = false;
+            }
+        }
+
+        public override void OnMouseMove(MouseEventInfo mouseInfo)
+        {
+            foreach (var editor in this.Editors.Where(x => x.IsActive))
+                editor.OnMouseMove(mouseInfo);
+        }
+
+        public override void OnMouseDown(MouseEventInfo mouseInfo)
+        {
+            foreach (var editor in this.Editors.Where(x => x.IsActive))
+                editor.OnMouseDown(mouseInfo);
+        }
+
+        public override void OnMouseUp(MouseEventInfo mouseInfo)
+        {
+            foreach (var editor in this.Editors.Where(x => x.IsActive))
+                editor.OnMouseUp(mouseInfo);
+        }
+
+        public override void OnKeyDown(KeyEventInfo keyInfo)
+        {
+            foreach (var editor in this.Editors.Where(x => x.IsActive))
+                editor.OnKeyDown(keyInfo);
+        }
     }
 }
