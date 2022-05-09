@@ -164,7 +164,7 @@ namespace SampleMapEditor
             MapLoader = new MapLoader(this);
             MapLoader.Load(this, FileInfo.FolderPath, FileInfo.FilePath, workingDir);
 
-            //Setup(MapLoader);
+            Setup(MapLoader);
             //MapLoader.SetupLighting();
         }
 
