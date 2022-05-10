@@ -433,6 +433,7 @@ namespace SampleMapEditor.LayoutEditor
 
         private EditableObject Create(Obj obj)
         {
+            Console.WriteLine($"Creating object with name: {obj.UnitConfigName}");
             string name = GetResourceName(obj);
             EditableObject render = new TransformableObject(Root);
 
@@ -463,7 +464,7 @@ namespace SampleMapEditor.LayoutEditor
                 if (bfres != null)
                 {
                     Console.WriteLine($"File {bfres.FileName} has a model");
-                    render = new BfresRender(bfres.FileData, filePath);
+                    render = new BfresRender(bfres.FileData, filePath, Root);
                 }
 
                 //render = new BfresRender(filePath, Root);
