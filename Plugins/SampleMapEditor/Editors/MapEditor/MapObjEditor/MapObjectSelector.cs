@@ -148,7 +148,7 @@ namespace SampleMapEditor.LayoutEditor
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(spacing.X, 0));
 
             //2 columns, one for name, another for ID
-            ImGui.BeginColumns("##objListColumns", 2);
+            ImGui.BeginColumns("##objListColumns", 1);  //  2);
 
             for (int line_i = clipper.DisplayStart; line_i < clipper.DisplayEnd; line_i++) // display only visible items
             {
@@ -178,7 +178,7 @@ namespace SampleMapEditor.LayoutEditor
 
                 //Display object ID
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text($"{mapObject.Name}");
+                //ImGui.Text($"{mapObject.Name}");
                 ImGui.NextColumn();
 
                 if (select)

@@ -480,7 +480,8 @@ namespace SampleMapEditor.LayoutEditor
                 if (GlobalSettings.ActorDatabase.ContainsKey(obj.UnitConfigName))
                 {
                     //Obj requires specific model to display
-                    string modelName = GlobalSettings.ActorDatabase[obj.UnitConfigName].FmdbName; // ??? - Not sure if Name should be changed to ResName or FmdbName
+                    string modelName = GlobalSettings.ActorDatabase[obj.UnitConfigName].FmdbName; // ??? -
+#warning Not sure if Name should be changed to ResName or FmdbName
                     if (!string.IsNullOrEmpty(modelName))
                     {
                         foreach (var model in ((BfresRender)render).Models)
@@ -827,11 +828,13 @@ namespace SampleMapEditor.LayoutEditor
         private string GetNodeHeader(Obj obj)
         {
             //string name = GlobalSettings.ObjectList.ContainsKey(obj.ObjId) ? $"{GlobalSettings.ObjectList[obj.ObjId]}" : obj.ObjId.ToString();
-            string name = "";
+            string name = "???";
             //Use object database instead if exists
             if (GlobalSettings.ActorDatabase.ContainsKey(obj.UnitConfigName))
-                name = GlobalSettings.ActorDatabase[obj.UnitConfigName].FmdbName;
-#warning ^^ Not sure if FmdbName is correct here. Check again later.
+            {
+                name = GlobalSettings.ActorDatabase[obj.UnitConfigName].Name;
+            }
+#warning ^^ Not sure if FmdbName is correct here. Check again later. -- Update: it wasn't. Name is correct.
 
             /*//Start Ex parameter spawn index
             if (obj.ObjId == 8008)

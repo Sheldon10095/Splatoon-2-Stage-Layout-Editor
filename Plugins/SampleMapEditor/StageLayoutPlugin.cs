@@ -286,15 +286,15 @@ namespace SampleMapEditor
             };
             Workspace.Outliner.SelectionChanged += (o, e) =>
             {
-                /*var node = o as NodeBase;
+                var node = o as NodeBase;
                 if (node == null || node.Parent == null || !node.IsSelected)
                     return;
-
+                
                 foreach (var editor in this.Editors)
                 {
                     if (editor.Root == node.Parent || editor.Root == node.Parent.Parent)
-                        UpdateMuuntEditor(editor, false);
-                }*/
+                        UpdateLayoutEditor(editor, false); //UpdateMuuntEditor(editor, false);
+                }
             };
             Workspace.ViewportWindow.DrawEditorDropdown += delegate
             {
