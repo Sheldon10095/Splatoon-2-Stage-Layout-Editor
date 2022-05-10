@@ -54,7 +54,8 @@ namespace SampleMapEditor
                 if (_rotate.X != radians.X || _rotate.Y != radians.Y || _rotate.Z != radians.Z)
                 {
                     _rotate = radians;
-                    NotifyPropertyChanged("RotateDegrees");
+                    //NotifyPropertyChanged("RotateDegrees");
+                    NotifyPropertyChanged("Rotate");
                 }
             }
         }
