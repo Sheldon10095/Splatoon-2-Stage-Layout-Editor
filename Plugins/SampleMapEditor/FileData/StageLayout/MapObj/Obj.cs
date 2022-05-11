@@ -38,7 +38,8 @@ namespace SampleMapEditor
 
 
 
-
+        /*private static int objcounter = 0;
+        private static string GetNewObjId => $"obj{objcounter++}";*/
         public Obj()
         {
             this.LayerConfigName = "Cmn";
