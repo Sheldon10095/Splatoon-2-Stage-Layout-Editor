@@ -37,7 +37,7 @@ namespace SampleMapEditor
         public List<ILayoutEditor> Editors = new List<ILayoutEditor>();
 
 
-
+        public MapLoader Resources;
 
 
         public override Action RenderNewFileDialog => () =>
@@ -170,8 +170,11 @@ namespace SampleMapEditor
 
         public void Save(Stream stream)
         {
-            //foreach (var editor in this.Editors)
-            //    editor.OnSave(Resources.CourseDefinition);
+            foreach (var editor in this.Editors)
+            {
+                //editor.OnSave(Resources.CourseDefinition);
+                editor.OnSave(Resources.stageDefinition);
+            }
 
             //MapLoader.StageDefinition.Save(stream);
 
@@ -333,7 +336,7 @@ namespace SampleMapEditor
 
 
 
-            //Resources = mapResources;     // ???
+            Resources = mapResources;     // ???
 
             //Make sure the collision render isn't null
             /*if (MapLoader.CollisionFile.CollisionRender == null)

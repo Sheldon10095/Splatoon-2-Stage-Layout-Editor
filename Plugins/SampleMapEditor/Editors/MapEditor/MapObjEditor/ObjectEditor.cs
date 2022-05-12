@@ -245,9 +245,9 @@ namespace SampleMapEditor.LayoutEditor
                     render.Transform.Position.Y,
                     render.Transform.Position.Z);
                 obj.Rotate = new ByamlVector3F(
-                    render.Transform.RotationEuler.X,
-                    render.Transform.RotationEuler.Y,
-                    render.Transform.RotationEuler.Z);
+                    render.Transform.RotationEulerDegrees.X,  // render.Transform.RotationEuler.X,
+                    render.Transform.RotationEulerDegrees.Y,  // render.Transform.RotationEuler.Y,
+                    render.Transform.RotationEulerDegrees.Z); // render.Transform.RotationEuler.Z);
                 obj.Scale = new ByamlVector3F(
                     render.Transform.Scale.X,
                     render.Transform.Scale.Y,

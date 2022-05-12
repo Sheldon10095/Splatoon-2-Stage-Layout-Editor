@@ -138,6 +138,27 @@ namespace SampleMapEditor
                 System.Console.WriteLine($"Obj {ObjId} _pathIndex {_pathIndex}");
             if (_objPathIndex != null)
                 System.Console.WriteLine($"Obj {ObjId} _objPathIndex {_pathIndex}");*/
+
+            List<string> UsedObjIds = new List<string>();
+            for (int i = 0; i < stageDefinition.Objs.Count; i++)
+            {
+                if (stageDefinition.Objs[i].Id != null)
+                {
+                    UsedObjIds.Add(stageDefinition.Objs[i].Id);
+                }
+            }
+
+            List<int> UsedObjIdNums = new List<int>();
+            UsedObjIds.ForEach(i => UsedObjIdNums.Add(int.Parse(i.Replace("obj", "")))); //Convert.ToInt32(i)));
+
+            int objIdxCounter = 0;
+            for (int i = 0; i < stageDefinition.Objs.Count; i++)
+            {
+                if (stageDefinition.Objs[i].Id != null) continue;
+                while (UsedObjIdNums.Contains(objIdxCounter))
+                    objIdxCounter++;
+                stageDefinition.Objs[i].Id = $"obj{objIdxCounter++}";
+            }
         }
 
 
@@ -146,6 +167,14 @@ namespace SampleMapEditor
             return new Obj()
             {
                 // ~ Fill out once Obj is fully defined ~
+                UnitConfigName = this.UnitConfigName,
+                IsLinkDest = this.IsLinkDest,
+                LayerConfigName = this.LayerConfigName,
+                Translate = this.Translate,
+                Scale = this.Scale,
+                Rotate = this.Rotate,
+                Links = this.Links,
+                Team = this.Team,
             };
         }
 
