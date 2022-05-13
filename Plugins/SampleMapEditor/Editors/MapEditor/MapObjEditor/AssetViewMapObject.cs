@@ -33,15 +33,20 @@ namespace SampleMapEditor.LayoutEditor
         public void AddAsset(List<AssetItem> assets, ActorDefinition actor)
         {
             string resName = actor.ResName;
-            string icon = "Node";
+            
+            /*string icon = "Node";
             if (IconManager.HasIcon($"{Runtime.ExecutableDir}/Lib/Images/MapObjects/{resName}.png"))
-                icon = $"{Runtime.ExecutableDir}/Lib/Images/MapObjects/{resName}.png";
+                icon = $"{Runtime.ExecutableDir}/Lib/Images/MapObjects/{resName}.png";*/
+
+            var icon = IconManager.GetTextureIcon("Node");
+            if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{resName}.png"))
+                icon = IconManager.GetTextureIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{resName}.png");
 
             assets.Add(new MapObjectAsset($"MapObject_{actor.Name}")
             {
                 Name = actor.Name,
                 ActorDefinition = actor,
-                Icon = IconManager.GetTextureIcon(icon),
+                Icon = icon,
             });
         }
 
