@@ -277,7 +277,7 @@ namespace MapStudio
             try
             {
                 //UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "Version.txt", "TrackStudio.exe");
-                UpdaterHelper.Setup("Sheldon10095", "Splatoon-2-Stage-Layout-Editor", "MapStudio.exe");
+                UpdaterHelper.Setup("Sheldon10095", "Splatoon-2-Stage-Layout-Editor", "Version.txt", "MapStudio.exe");
 
                 var release = UpdaterHelper.TryGetLatest(Runtime.ExecutableDir, 0);
                 if (release == null)

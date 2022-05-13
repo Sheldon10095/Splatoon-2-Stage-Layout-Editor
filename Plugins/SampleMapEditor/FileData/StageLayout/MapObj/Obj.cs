@@ -192,7 +192,7 @@ namespace SampleMapEditor
 
         public static string FindFilePath(string resName)
         {
-            string resFilePath = GlobalSettings.GetContentPath($"Model/{resName}.Nin_NX_NVN.szs");
+            string resFilePath = GlobalSettings.GetContentPath($"Model\\{resName}.Nin_NX_NVN.szs");
 
             if (File.Exists(resFilePath)) return resFilePath;
 

@@ -42,9 +42,9 @@ namespace SampleMapEditor
         public static string GetContentPath(string relativePath)
         {
             //Update first then base package.
-            if (File.Exists($"{ModOutputPath}/{relativePath}")) return $"{ModOutputPath}/{relativePath}";
-            if (File.Exists($"{AOCPath}/{relativePath}")) return $"{AOCPath}/{relativePath}";
-            if (File.Exists($"{GamePath}/{relativePath}")) return $"{GamePath}/{relativePath}";
+            if (File.Exists($"{ModOutputPath}\\{relativePath}")) return $"{ModOutputPath}\\{relativePath}";
+            if (File.Exists($"{AOCPath}\\{relativePath}")) return $"{AOCPath}\\{relativePath}";
+            if (File.Exists($"{GamePath}\\{relativePath}")) return $"{GamePath}\\{relativePath}";
 
             return relativePath;
         }
