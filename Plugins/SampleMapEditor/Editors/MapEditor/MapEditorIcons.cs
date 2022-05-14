@@ -39,6 +39,12 @@ namespace SampleMapEditor.LayoutEditor
         {
             groupNode.Icon = MapEditorIcons.POINT_ICON.ToString();
 
+            if (type == typeof(MuRail))
+            {
+                //groupNode.Icon = MapEditorIcons.RAIL_PATH_COLOR.ToString();
+                groupNode.IconColor = MapEditorIcons.RAIL_PATH_COLOR;
+            }
+
             /*if (type == typeof(LapPath))
             {
                 groupNode.Icon = MapEditorIcons.CUBE_POINT_ICON.ToString();

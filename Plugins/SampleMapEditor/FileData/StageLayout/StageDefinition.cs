@@ -90,7 +90,7 @@ namespace SampleMapEditor
             RouteChanges?.ForEach(x => x.DeserializeReferences(this));*/
 
             Objs?.ForEach(x => x.DeserializeReferences(this));
-            //Rails?.ForEach(x => x.DeserializeReferences(this));
+            Rails?.ForEach(x => x.DeserializeReferences(this));
 
             //Convert baked in tool obj paths to editable rail paths
             /*if (ObjPaths != null)
@@ -125,6 +125,7 @@ namespace SampleMapEditor
             }*/
 
             Objs?.ForEach(x => Console.WriteLine(x.UnitConfigName)); // [DEBUG] Log all object names
+            Rails?.ForEach(r => Console.WriteLine(r.UnitConfigName));
         }
 
         public void Save() { this.Save(originalPath); }
@@ -198,7 +199,7 @@ namespace SampleMapEditor
             RouteChanges?.ForEach(x => x.SerializeReferences(this));*/
 
             Objs?.ForEach(x => x.SerializeReferences(this));
-            //Rails?.ForEach(x => x.SerializeReferences(this));
+            Rails?.ForEach(x => x.SerializeReferences(this)); // testing
 
             BymlData.RootNode = ByamlSerialize.Serialize(this);
             //ByamlFile.SaveN(stream, BymlData); // Used for saving as byaml
@@ -299,8 +300,17 @@ namespace SampleMapEditor
 
         // ---- Rails ----
 #warning Uncomment this once Rail is defined!
-        //[ByamlMember("Rails", Optional = true)]
-        //public List<Rail> Rails { get; set; }
+        [ByamlMember("Rails", Optional = true)]
+        public List<MuRail> Rails { get; set; }
+
+
+
+        // Maybe switch tactics later
+        /*[ByamlMember]
+        public List<MuElement> Objs { get; set; }
+
+        [ByamlMember]
+        public List<MuRail> Rails { get; set; }*/
 
 
 
