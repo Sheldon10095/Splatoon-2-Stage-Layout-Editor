@@ -829,7 +829,7 @@ namespace SampleMapEditor.LayoutEditor
         private string GetNodeHeader(Obj obj)
         {
             //string name = GlobalSettings.ObjectList.ContainsKey(obj.ObjId) ? $"{GlobalSettings.ObjectList[obj.ObjId]}" : obj.ObjId.ToString();
-            string name = "???";
+            string name = obj.UnitConfigName;   //string name = "???";
             //Use object database instead if exists
             if (GlobalSettings.ActorDatabase.ContainsKey(obj.UnitConfigName))
             {
