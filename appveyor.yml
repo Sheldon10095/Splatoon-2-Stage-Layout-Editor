@@ -1,4 +1,7 @@
 version: 1.0.{build}
+branches:
+  only:
+  - main
 configuration: Release
 platform: Any CPU
 install:
