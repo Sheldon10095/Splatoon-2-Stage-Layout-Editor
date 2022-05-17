@@ -45,13 +45,13 @@ namespace SampleMapEditor.LayoutEditor
         {
             // We don't need as much stuff as the MK8 tool because we are only dealing with the stage layout
 
-            stageDefinition.Objs = new List<Obj>();
+            stageDefinition.Objs = new List<MuElement>();
             
             // Add a RespawnPos
-            Obj obj0 = new Obj()
+            MuObj obj0 = new MuObj()
             {
                 Id = "obj0",
-                IsLinkDest = false,
+                //IsLinkDest = false,
                 LayerConfigName = "Cmn",
                 Team = 0,
                 UnitConfigName = "RespawnPos",
@@ -63,10 +63,10 @@ namespace SampleMapEditor.LayoutEditor
             stageDefinition.Objs.Add(obj0);
 
             // Add a second RespawnPos
-            Obj obj1 = new Obj()
+            MuObj obj1 = new MuObj()
             {
                 Id = "obj1",
-                IsLinkDest = false,
+                //IsLinkDest = false,
                 LayerConfigName = "Cmn",
                 Team = 1,
                 UnitConfigName = "RespawnPos",

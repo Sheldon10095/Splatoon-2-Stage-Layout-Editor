@@ -92,6 +92,10 @@ namespace SampleMapEditor
             Objs?.ForEach(x => x.DeserializeReferences(this));
             Rails?.ForEach(x => x.DeserializeReferences(this));
 
+
+            // Maybe try to load objects in differently. Get the corresponding Actor for the object, and use the Actor's ClassName to create the object accordingly.
+
+
             //Convert baked in tool obj paths to editable rail paths
             /*if (ObjPaths != null)
             {
@@ -291,11 +295,17 @@ namespace SampleMapEditor
 
         // ---- Objects ----
 
-        /// <summary>
+        /*/// <summary>
         /// Gets or sets the list of <see cref="Obj"/> instances.
         /// </summary>
         [ByamlMember("Objs")]
-        public List<Obj> Objs { get; set; }
+        public List<Obj> Objs { get; set; }*/
+
+        /// <summary>
+        /// Gets or sets the list of <see cref="MuElement"/> instances.
+        /// </summary>
+        [ByamlMember("Objs")]
+        public List<MuElement> Objs { get; set; }
 
 
         // ---- Rails ----
@@ -344,10 +354,10 @@ namespace SampleMapEditor
             else
                 FirstCurve = "right";*/
 
-            Objs.ForEach(x =>
+            /*Objs.ForEach(x =>
             {
                 if (x.ModelName == null) x.ModelName = "";
-            });
+            });*/
 
             Console.WriteLine("~ Called StageDefinition.SerializeByaml(); ~");
         }

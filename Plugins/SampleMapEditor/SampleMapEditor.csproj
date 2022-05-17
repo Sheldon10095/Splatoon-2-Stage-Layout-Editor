@@ -25,6 +25,9 @@
     <Reference Include="BfresLibrary">
       <HintPath>..\..\Track Studio\Lib\BfresLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="BfshaLibrary">
+      <HintPath>..\..\Track Studio\Lib\BfshaLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="ByamlExt">
       <HintPath>..\..\Track Studio\Lib\ByamlExt.dll</HintPath>
     </Reference>

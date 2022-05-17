@@ -8,7 +8,7 @@ using Toolbox.Core;
 namespace SampleMapEditor
 {
     [ByamlObject]
-    public class MuObj : MuElement, IByamlSerializable, IStageReferencable
+    public class MuObj : MuElement /*, IByamlSerializable, IStageReferencable*/
     {
         [ByamlMember]
         /*[BindGUI("Team")]*/

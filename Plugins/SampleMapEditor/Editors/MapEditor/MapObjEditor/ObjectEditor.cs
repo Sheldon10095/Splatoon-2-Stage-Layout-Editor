@@ -63,7 +63,8 @@ namespace SampleMapEditor.LayoutEditor
         }
 
 
-        public ObjectEditor(StageLayoutPlugin editor, List<Obj> objs)
+        //public ObjectEditor(StageLayoutPlugin editor, List<Obj> objs)
+        public ObjectEditor(StageLayoutPlugin editor, List<MuElement> objs)
         {
             MapEditor = editor;
             InitIcons();
@@ -219,7 +220,7 @@ namespace SampleMapEditor.LayoutEditor
             }
         }
 
-        void Init(List<Obj> objs)
+        void Init(List<MuElement> objs)
         {
             Root.Children.Clear();
             Renderers.Clear();
@@ -235,11 +236,13 @@ namespace SampleMapEditor.LayoutEditor
 
         public void OnSave(StageDefinition stage)
         {
-            stage.Objs = new List<Obj>();
+            //stage.Objs = new List<Obj>();
+            stage.Objs = new List<MuElement>();
 
             foreach (EditableObject render in Renderers)
             {
-                var obj = (Obj)render.UINode.Tag;
+#warning May need to cast to correct Actor Class type. Check later.
+                var obj = (MuElement)render.UINode.Tag;
                 obj.Translate = new ByamlVector3F(
                     render.Transform.Position.X,
                     render.Transform.Position.Y,
@@ -411,7 +414,7 @@ namespace SampleMapEditor.LayoutEditor
 
             foreach (EditableObject ob in copied)
             {
-                var obj = ob.UINode.Tag as Obj;
+                var obj = ob.UINode.Tag as MuElement; //Obj;
                 var duplicated = Create(obj.Clone());
                 duplicated.Transform.Position = ob.Transform.Position;
                 duplicated.Transform.Scale = ob.Transform.Scale;
@@ -431,7 +434,8 @@ namespace SampleMapEditor.LayoutEditor
         }
 
 
-        private EditableObject Create(Obj obj)
+        //private EditableObject Create(Obj obj)
+        private EditableObject Create(MuElement obj)
         {
             Console.WriteLine($"Creating object with name: {obj.UnitConfigName}");
             string name = GetResourceName(obj);
@@ -733,10 +737,12 @@ namespace SampleMapEditor.LayoutEditor
                 if (skyboxRender != null)
                     return EditObject(skyboxRender, id);*/
             }
-            var rend = Create(new Obj() { UnitConfigName = actorName}); // I think this is correct
+            //var rend = Create(new Obj() { UnitConfigName = actorName}); // I think this is correct
+            var rend = Create(new MuElement() { UnitConfigName = actorName}); // I think this is correct
+#warning May need to cast to correct Actor Class type. Check later.
             Add(rend, true);
 
-            var ob = rend.UINode.Tag as Obj;
+            var ob = rend.UINode.Tag as MuElement; //Obj;
 
             /*//Reset parameters to defaults
             if (ParamDatabase.ParameterDefaults.ContainsKey(ob.ObjId))
@@ -770,7 +776,7 @@ namespace SampleMapEditor.LayoutEditor
         private EditableObject EditObject(EditableObject render, string actorName)
         {
             int index = render.UINode.Index;
-            var obj = render.UINode.Tag as Obj;
+            var obj = render.UINode.Tag as MuElement; // Obj;
             //obj.ObjId = id;
             obj.UnitConfigName = actorName;
 
@@ -809,7 +815,8 @@ namespace SampleMapEditor.LayoutEditor
 
 
 
-        private string GetResourceName(Obj obj)
+        //private string GetResourceName(Obj obj)
+        private string GetResourceName(MuElement obj)
         {
             Console.WriteLine("~ Called ObjectEditor.GetResourceName(Obj) ~");
 
@@ -826,7 +833,8 @@ namespace SampleMapEditor.LayoutEditor
             return name;
         }
 
-        private string GetNodeHeader(Obj obj)
+        //private string GetNodeHeader(Obj obj)
+        private string GetNodeHeader(MuElement obj)
         {
             //string name = GlobalSettings.ObjectList.ContainsKey(obj.ObjId) ? $"{GlobalSettings.ObjectList[obj.ObjId]}" : obj.ObjId.ToString();
             string name = obj.UnitConfigName;   //string name = "???";

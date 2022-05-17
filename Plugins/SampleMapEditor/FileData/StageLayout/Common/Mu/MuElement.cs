@@ -13,7 +13,7 @@ namespace SampleMapEditor
         {
             [ByamlMember]
             public string DefinitionName { get; set; }
-            
+
             [ByamlMember]
             public string DestUnitId { get; set; }
         }
@@ -178,6 +178,11 @@ namespace SampleMapEditor
                 Translate = this.Translate,
                 RotateDegrees = this.RotateDegrees,
             };
+        }
+
+        public static string GetActorClassName(MuElement element)
+        {
+            return GlobalSettings.ActorDatabase[element.UnitConfigName].ClassName;
         }
     }
 }
