@@ -434,6 +434,26 @@ namespace SampleMapEditor.LayoutEditor
         }
 
 
+
+        private void LoadDeliTextures(ref EditableObject render)
+        {
+            if (render is BfresRender)
+            {
+                Console.WriteLine("Loading DeliTextures!");
+                var deliTex_sarc = new SARC();
+                string dtpath = EditorLoader.GetContentPath("Model/DeliTextures.Nin_NX_NVN.szs");
+                SARC s = new SARC();
+                s.Load(new MemoryStream(YAZ0.Decompress(dtpath)));
+                BfresRender dt_bfres = new BfresRender(s.files.Find(f => f.FileName == "output.bfres").FileData, dtpath);
+                for (int i = 0; i < dt_bfres.Textures.Count; i++)
+                {
+                    ((BfresRender)render).Textures.Add(dt_bfres.Textures.Keys.ElementAt(i), dt_bfres.Textures.Values.ElementAt(i));
+                }
+            }
+        }
+
+
+
         //private EditableObject Create(Obj obj)
         private EditableObject Create(MuElement obj)
         {
@@ -469,6 +489,12 @@ namespace SampleMapEditor.LayoutEditor
                 {
                     Console.WriteLine($"File {bfres.FileName} has a model");
                     render = new BfresRender(bfres.FileData, filePath, Root);
+                    
+                    // Apply DeliTextures to Shifty Stations
+                    if (name.StartsWith("Fld_Deli_Octa"))
+                    {
+                        LoadDeliTextures(ref render);
+                    }
                 }
 
                 //render = new BfresRender(filePath, Root);
