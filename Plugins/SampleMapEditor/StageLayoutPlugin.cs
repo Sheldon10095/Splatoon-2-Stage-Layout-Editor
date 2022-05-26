@@ -346,6 +346,7 @@ namespace SampleMapEditor
             //Load a custom map object category for the asset handler.
             Workspace.AddAssetCategory(new AssetViewMapObject());
             //Workspace.AddAssetCategory(new AssetViewMapObjectVR());
+#warning TODO: Add entries that split different obj types into their own categories
 
 
 

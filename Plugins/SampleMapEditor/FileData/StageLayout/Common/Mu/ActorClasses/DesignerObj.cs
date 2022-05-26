@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SampleMapEditor
 {
-    public class DesignerObj : MuObj, IRailableParams //, IMusicLinkAnimationControllerParams /*Not Used*/
+    [ByamlObject]
+    public class DesignerObj : MuObj, IRailableParams, IByamlSerializable, IStageReferencable  //, IMusicLinkAnimationControllerParams /*Not Used*/
     {
         [ByamlMember] public bool IsObjPaintForResult { get; set; }
         [ByamlMember] public bool IsBreakableByLargeEnemy { get; set; }

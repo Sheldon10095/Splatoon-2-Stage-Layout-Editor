@@ -9,13 +9,25 @@ namespace SampleMapEditor
     [ByamlObject]
     public class MuElement : SpatialObject, IByamlSerializable, IStageReferencable
     {
-        public class LinkInfo
+        [ByamlObject]
+        public class LinkInfo : IByamlSerializable
         {
+#warning May not need to extend this interface
             [ByamlMember]
             public string DefinitionName { get; set; }
 
             [ByamlMember]
             public string DestUnitId { get; set; }
+
+            //[ByamlMember] public string UnitFileName { get; set; }
+
+            public override string ToString()
+            {
+                return $"[DefinitionName: {DefinitionName}, DestUnitId: {DestUnitId}]";
+            }
+
+            public virtual void DeserializeByaml(IDictionary<string, object> dictionary) { }
+            public virtual void SerializeByaml(IDictionary<string, object> dictionary) { }
         }
 
 
@@ -31,8 +43,9 @@ namespace SampleMapEditor
         [ByamlMember]
         public string UnitConfigName { get; set; }
 
-        [ByamlMember]
-        public List<LinkInfo> Links { get; set; } = new List<LinkInfo>();
+        /*[ByamlMember]*/
+        public Dictionary<string, List<LinkInfo>> Links { get; set; } = new Dictionary<string, List<LinkInfo>>();
+#warning Links are not deserializing yet. Fix soon. Update: May be fixed. Check again when it is not past midnight.
 
 
 
@@ -61,7 +74,42 @@ namespace SampleMapEditor
         /// <param name="dictionary">The <see cref="IDictionary{String, Object}"/> to read the data from.</param>
         public virtual void DeserializeByaml(IDictionary<string, object> dictionary)
         {
+            Console.ResetColor();
             //ModeInclusion = ModeInclusion.FromDictionary(dictionary);
+
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            var dictLinks = dictionary["Links"] as Dictionary<string, object>;
+            Console.WriteLine($"Link Count: {dictLinks.Count}"); //Console.WriteLine($"Link Count: {((Dictionary<string, object>)dictionary["Links"]).Count}");
+            //Links = (Dictionary<string, List<LinkInfo>>)dictionary["Links"];
+            try
+            {
+                for (int i = 0; i < dictLinks.Keys.Count; i++)
+                {
+                    string keyName = dictLinks.Keys.ElementAt(i);
+                    for (int j = 0; j < ((List<dynamic>)dictLinks[keyName]).Count; j++)
+                    {
+                        var entry = ((List<dynamic>)dictLinks[keyName])[j];
+                        Console.WriteLine(entry);
+                        var li = new LinkInfo()
+                        {
+                            DefinitionName = entry["DefinitionName"],
+                            DestUnitId = entry["DestUnitId"],
+                        };
+                        Console.WriteLine(li);
+                        //Links[keyName].Add(li);
+                        if (!Links.ContainsKey(keyName))
+                            Links.Add(keyName, new List<LinkInfo>());
+
+                        Links[keyName].Add(li);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.ResetColor();
+                Console.WriteLine(ex.Message);
+            }
+            Console.ResetColor();
         }
 
         /// <summary>
@@ -71,6 +119,29 @@ namespace SampleMapEditor
         public virtual void SerializeByaml(IDictionary<string, object> dictionary)
         {
             //ModeInclusion.ToDictionary(dictionary);
+            dictionary.Add("Links", new Dictionary<string, object>());
+
+            if (Links.Count == 0) return;
+
+            foreach (var link in Links)
+            {
+                link.Value.ForEach(lnk => Console.WriteLine(lnk));
+                if (!((Dictionary<string, object>)dictionary["Links"]).ContainsKey(link.Key))
+                    ((Dictionary<string, object>)dictionary["Links"]).Add(link.Key, new List<object>()); //new Dictionary<string, object>());
+
+                link.Value.ForEach(lnk =>
+                {
+                    var entry = new Dictionary<string, object>();
+                    entry["DefinitionName"] = lnk.DefinitionName;
+                    entry["DestUnitId"] = lnk.DestUnitId;
+                    //entry["UnitFileName"] = lnk.UnitFileName;
+                    ((dynamic)dictionary)["Links"][link.Key].Add(entry);
+                });
+            }
+
+            //((dynamic)dictionary["Links"]).Add("TEST_KEY");
+            //((dynamic)dictionary["Links"]).Add(testDict);
+            //((dynamic)dictionary["Links"])["TEST_KEY"].Add((Dictionary))
         }
 
         /// <summary>
@@ -183,6 +254,19 @@ namespace SampleMapEditor
         public static string GetActorClassName(MuElement element)
         {
             return GlobalSettings.ActorDatabase[element.UnitConfigName].ClassName;
+        }
+        public static string GetActorClassName(dynamic element)
+        {
+            string name = "";
+            try
+            {
+                name = GlobalSettings.ActorDatabase[element["UnitConfigName"]].ClassName;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return name;
         }
     }
 }

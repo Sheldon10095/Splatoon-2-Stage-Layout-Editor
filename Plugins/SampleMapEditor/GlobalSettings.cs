@@ -66,7 +66,7 @@ namespace SampleMapEditor
             var actorDb = new ActorDefinitionDb(path);
             foreach (var actor in actorDb.Definitions)
             {
-                Console.WriteLine($"~ Adding Actor: {actor.Name}");
+                //Console.WriteLine($"~ Adding Actor: {actor.Name}");
                 ActorDatabase.Add(actor.Name, actor);
             }
         }

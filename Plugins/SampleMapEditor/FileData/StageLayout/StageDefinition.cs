@@ -64,10 +64,16 @@ namespace SampleMapEditor
             BymlData = ByamlFile.LoadN(arc.files[0].FileData, false);
 
 
+            GlobalSettings.LoadDataBase();
+
+
             //BymlData = ByamlFile.LoadN(stream, true);
             //   Console.WriteLine($"Loaded byaml! {fileName}");
-            ByamlSerialize.Deserialize(this, BymlData.RootNode);
-               Console.WriteLine("Deserialized byaml!");
+            /*ByamlSerialize.Deserialize(this, BymlData.RootNode);
+               Console.WriteLine("Deserialized byaml!");*/
+
+            ByamlSerialize.SpecialDeserialize(this, BymlData.RootNode);
+            Console.WriteLine("Special Deserialized byaml!");
 
             // After loading all the instances, allow references to be resolved.
             /*Areas?.ForEach(x => x.DeserializeReferences(this));
@@ -89,11 +95,34 @@ namespace SampleMapEditor
             SteerAssistPaths?.ForEach(x => x.DeserializeReferences(this));
             RouteChanges?.ForEach(x => x.DeserializeReferences(this));*/
 
-            Objs?.ForEach(x => x.DeserializeReferences(this));
+            //ByamlSerialize.Deserialize(this.Rails., BymlData.RootNode["Rails"]);
+            //Console.WriteLine($"Objects count: {BymlData.RootNode["Objs"].Count}");
+
+            // Load Actor Database
+
             Rails?.ForEach(x => x.DeserializeReferences(this));
+            Objs?.ForEach(x => x.DeserializeReferences(this));
 
 
             // Maybe try to load objects in differently. Get the corresponding Actor for the object, and use the Actor's ClassName to create the object accordingly.
+            /*Objs?.ForEach(x =>
+            {
+                Console.WriteLine("~~~");
+                Console.WriteLine($"ClassName: {MuElement.GetActorClassName(x)}");
+                switch (MuElement.GetActorClassName(x))
+                {
+                    case "Field":
+                        x = x as MuElement;
+                        break;
+                    case "DesignerObj":
+                        //x = (MuObj)x; // x as DesignerObj;
+                        break;
+                    default:
+                        break;
+                }
+                Console.WriteLine($"Deserialized object to type: {x*//*.GetType().Name*//*}");
+                x.DeserializeReferences(this);
+            });*/
 
 
             //Convert baked in tool obj paths to editable rail paths
@@ -130,6 +159,25 @@ namespace SampleMapEditor
 
             Objs?.ForEach(x => Console.WriteLine(x.UnitConfigName)); // [DEBUG] Log all object names
             Rails?.ForEach(r => Console.WriteLine(r.UnitConfigName));
+
+            for (int i = 0; i < Objs?.Count; i++)
+            {
+                if (Objs[i].Links.Count == 0)
+                    continue;
+
+                Console.WriteLine($"Object {Objs[i].Id} has {Objs[i].Links.Count} links.");
+                /*foreach (var link in (IDictionary<string, LinkInfo>)Objs[i].Links)
+                {
+                    Console.WriteLine($"  {link.Key}: {link.Value.DefinitionName}, {link.Value.DestUnitId}");
+                }*/
+                foreach (var link in Objs[i].Links)
+                {
+                    foreach (var val in link.Value)
+                    {
+                        Console.WriteLine(val);
+                    }
+                }
+            }
         }
 
         public void Save() { this.Save(originalPath); }
