@@ -148,7 +148,8 @@ namespace SampleMapEditor
                     if (property.GetPropertyValue("Name").ToString() == "Objs")
                     {
                         string className = MuElement.GetActorClassName(list[j]);
-                        Console.WriteLine($"Using Class Name: {className}");
+                        SetMapObjType(ref elementType, className);
+                        /*Console.WriteLine($"Using Class Name: {className}");
                         switch (className)
                         {
                             case "DesignerObj":
@@ -163,7 +164,7 @@ namespace SampleMapEditor
                             default:
                                 elementType = typeof(MuObj);
                                 break;
-                        }
+                        }*/
                     }
 
                     if (list[j] is IDictionary<string, dynamic>)
@@ -227,6 +228,34 @@ namespace SampleMapEditor
         }
 
 
+
+        private static void SetMapObjType(ref Type type, string className)
+        {
+            Console.WriteLine($"Using Class Name: {className}");
+            switch (className)
+            {
+                case "DesignerObj":
+                    type = typeof(DesignerObj);
+                    break;
+                case "Lift":
+                    type = typeof(Lift);
+                    break;
+                // DesignerObjNoCulling
+                case "Field":
+                    // Keep as MuElement
+                    break;
+                case "Jerry":
+                    type = typeof(Jerry);
+                    break;
+                case "SpongeVersus":
+                    type = typeof(SpongeVersus);
+                    break;
+                default:
+                    type = typeof(MuObj);
+                    break;
+            }
+            Console.WriteLine($"  Using: {type.Name}");
+        }
 
 
 

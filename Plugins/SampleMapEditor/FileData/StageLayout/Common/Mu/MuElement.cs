@@ -13,11 +13,8 @@ namespace SampleMapEditor
         public class LinkInfo : IByamlSerializable
         {
 #warning May not need to extend this interface
-            [ByamlMember]
-            public string DefinitionName { get; set; }
-
-            [ByamlMember]
-            public string DestUnitId { get; set; }
+            [ByamlMember] public string DefinitionName { get; set; }
+            [ByamlMember] public string DestUnitId { get; set; }
 
             //[ByamlMember] public string UnitFileName { get; set; }
 
