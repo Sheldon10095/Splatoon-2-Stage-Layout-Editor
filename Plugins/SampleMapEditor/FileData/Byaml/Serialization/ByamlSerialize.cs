@@ -148,7 +148,10 @@ namespace SampleMapEditor
                     if (property.GetPropertyValue("Name").ToString() == "Objs")
                     {
                         string className = MuElement.GetActorClassName(list[j]);
+                        if (className.Length == 0) className = list[j]["UnitConfigName"];
+
                         SetMapObjType(ref elementType, className);
+
                         /*Console.WriteLine($"Using Class Name: {className}");
                         switch (className)
                         {
@@ -250,9 +253,40 @@ namespace SampleMapEditor
                 case "SpongeVersus":
                     type = typeof(SpongeVersus);
                     break;
+
+                // 2
+                case "PaintTargetArea":
+                    type = typeof(PaintTargetArea);
+                    break;
+                case "InkRailVersus":
+                    type = typeof(InkRailVersus);
+                    break;
+                
+                // 1
+                case "Gachihoko":
+                    type = typeof(Gachihoko);
+                    break;
                 case "VictoryLift":
                     type = typeof(VictoryLift);
                     break;
+                case "SpectatorCameraBoundingArea":
+                    type = typeof(SpectatorCameraBoundingArea);
+                    break;
+                case "VictoryClamBankEmitArea":
+                    type = typeof(VictoryClamBankEmitArea);
+                    break;
+                case "VictoryClamBasket":
+                    type = typeof(VictoryClamBasket);
+                    break;
+                case "VictoryClamSpawnPoint":
+                    type = typeof(VictoryClamSpawnPoint);
+                    break;
+
+                // ~0~
+                case "MapPaintableChanger":
+                    type = typeof(MapPaintableChanger);
+                    break;
+
                 default:
                     type = typeof(MuObj);
                     break;
