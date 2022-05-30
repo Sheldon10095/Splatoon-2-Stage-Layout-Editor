@@ -250,6 +250,9 @@ namespace SampleMapEditor
                 case "SpongeVersus":
                     type = typeof(SpongeVersus);
                     break;
+                case "VictoryLift":
+                    type = typeof(VictoryLift);
+                    break;
                 default:
                     type = typeof(MuObj);
                     break;
