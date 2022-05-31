@@ -12,6 +12,11 @@ namespace SampleMapEditor
 
         // THIS CODE WAS AUTO-GENERATED
 
+        public Gachihoko() : base()
+        {
+            HikikomoriDetectionRate = 0.3f;
+        }
+
         public override Gachihoko Clone()
         {
             Gachihoko clone = (Gachihoko)base.Clone();
