@@ -547,8 +547,8 @@ namespace SampleMapEditor.LayoutEditor
                 }
 
 #warning Add MapObjectUI code
-                //var gui = new MapObjectUI();
-                //gui.Render(obj, Workspace.ActiveWorkspace.GetSelected().Select(x => x.Tag));
+                var gui = new MapObjectUI();
+                gui.Render(obj, Workspace.ActiveWorkspace.GetSelected().Select(x => x.Tag));
             };
 
 

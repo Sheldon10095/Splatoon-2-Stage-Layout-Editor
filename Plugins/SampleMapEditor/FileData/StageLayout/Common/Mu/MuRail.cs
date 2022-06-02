@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Toolbox.Core;
 
 namespace SampleMapEditor
 {
@@ -14,14 +15,17 @@ namespace SampleMapEditor
 
 
         [ByamlMember]
+        [BindGUI("Is Closed")]
         public bool IsClosed { get; set; }
 
 
         [ByamlMember]
+        [BindGUI("Rail Type")]
         public string RailType { get; set; }
 
 
         [ByamlMember]
+        [BindGUI("Priority")]
         public int Priority { get; set; }
 
 

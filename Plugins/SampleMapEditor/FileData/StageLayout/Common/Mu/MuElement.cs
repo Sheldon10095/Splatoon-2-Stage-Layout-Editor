@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Toolbox.Core;
 
 namespace SampleMapEditor
 {
@@ -28,10 +29,20 @@ namespace SampleMapEditor
         }
 
 
+        [BindGUI("Name", Category = "OBJECT", ColumnIndex = 0)]
+        public string _Name
+        {
+            get
+            {
+                return this.UnitConfigName;
+            }
+        }
+
         /*[ByamlMember]
         public bool IsLinkDest { get; set; }*/
 
         [ByamlMember]
+        [BindGUI("LayerConfigName", Category = "OBJECT", ColumnIndex = 0, Control = BindControl.Default)]
         public string LayerConfigName { get; set; }
 
         /*[ByamlMember]
