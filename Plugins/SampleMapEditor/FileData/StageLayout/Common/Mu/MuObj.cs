@@ -11,7 +11,7 @@ namespace SampleMapEditor
     public class MuObj : MuElement, IByamlSerializable, IStageReferencable
     {
         [ByamlMember]
-        /*[BindGUI("Team")]*/
+        [BindGUI("Team", Category = "Object Properties")]
         public int Team { get; set; }
 
 

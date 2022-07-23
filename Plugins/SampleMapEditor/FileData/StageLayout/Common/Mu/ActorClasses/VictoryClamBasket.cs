@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Toolbox.Core;
 
 namespace SampleMapEditor
 {
     public class VictoryClamBasket : MuObj
     {
-        [ByamlMember] public float HeightBarrierCenter { get; set; }
-        [ByamlMember] public float ClamSupplySpeed { get; set; }
-        [ByamlMember] public float DegAxisY_SpawnFromGoal { get; set; }
-        [ByamlMember] public bool IsAutoGenOpposite { get; set; }
+        [ByamlMember] [BindGUI("HeightBarrierCenter", Category = "Clam Basket Properties")] public float HeightBarrierCenter { get; set; }
+        [ByamlMember] [BindGUI("Clam Supply Speed", Category = "Clam Basket Properties")] public float ClamSupplySpeed { get; set; }
+        [ByamlMember] [BindGUI("DegAxisY_SpawnFromGoal", Category = "Clam Basket Properties")] public float DegAxisY_SpawnFromGoal { get; set; }
+        [ByamlMember] [BindGUI("AutoGen Opposite Barrier? (Team must be Bravo!)", Category = "Clam Basket Properties")] public bool IsAutoGenOpposite { get; set; }
 
         // THIS CODE WAS AUTO-GENERATED
 

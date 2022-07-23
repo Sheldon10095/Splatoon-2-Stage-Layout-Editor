@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Toolbox.Core;
 
 namespace SampleMapEditor
 {
     public class VictoryClamBankEmitArea : MuObj
     {
-        [ByamlMember] public int Weight { get; set; }
+        [ByamlMember] [BindGUI("Weight", Category = "Victory Clam Bank Emit Area Properties")] public int Weight { get; set; }
 
         // THIS CODE WAS AUTO-GENERATED
 
