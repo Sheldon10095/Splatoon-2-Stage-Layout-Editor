@@ -764,8 +764,17 @@ namespace SampleMapEditor.LayoutEditor
                     return EditObject(skyboxRender, id);*/
             }
             //var rend = Create(new Obj() { UnitConfigName = actorName}); // I think this is correct
-            var rend = Create(new MuElement() { UnitConfigName = actorName}); // I think this is correct
-#warning May need to cast to correct Actor Class type. Check later.
+            /*var rend = Create(new MuElement() { UnitConfigName = actorName}); // I think this is correct -- Nope.
+#warning May need to cast to correct Actor Class type. Check later.*/
+
+            //Get Actor Class Name
+            string className = GlobalSettings.ActorDatabase[actorName].ClassName;
+            Type elem = typeof(MuElement);
+            ByamlSerialize.SetMapObjType(ref elem, className);
+            var inst = (MuElement)Activator.CreateInstance(elem);
+            inst.UnitConfigName = actorName;
+            var rend = Create(inst);
+
             Add(rend, true);
 
             var ob = rend.UINode.Tag as MuElement; //Obj;

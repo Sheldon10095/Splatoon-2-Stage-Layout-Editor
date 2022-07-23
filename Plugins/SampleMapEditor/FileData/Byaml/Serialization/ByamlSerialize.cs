@@ -232,7 +232,7 @@ namespace SampleMapEditor
 
 
 
-        private static void SetMapObjType(ref Type type, string className)
+        public static void SetMapObjType(ref Type type, string className)
         {
             Console.WriteLine($"Using Class Name: {className}");
             switch (className)
