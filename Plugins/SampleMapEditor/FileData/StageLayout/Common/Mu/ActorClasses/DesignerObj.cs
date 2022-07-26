@@ -11,12 +11,12 @@ namespace SampleMapEditor
     public class DesignerObj : MuObj, IRailableParams, IByamlSerializable, IStageReferencable  //, IMusicLinkAnimationControllerParams /*Not Used*/
     {
         [ByamlMember]
-        [BindGUI("Is Object Paint For Result")]
+        [BindGUI("Is Object Paint For Result", Category = "DesignerObj Properties")]
         public bool IsObjPaintForResult { get; set; }
 
-        [ByamlMember] public bool IsBreakableByLargeEnemy { get; set; }
+        [ByamlMember] [BindGUI("Is Breakable By Large Enemy", Category = "DesignerObj Properties")] public bool IsBreakableByLargeEnemy { get; set; }
         
-        [ByamlMember] public bool IsAppearAfterClearInWolrd { get; set; }
+        [ByamlMember] [BindGUI("Is Appear After Clear In World", Category = "DesignerObj Properties")] public bool IsAppearAfterClearInWolrd { get; set; }
 
 
         // RAILABLE PARAMS
