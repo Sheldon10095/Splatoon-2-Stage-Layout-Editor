@@ -254,9 +254,17 @@ namespace SampleMapEditor
                     type = typeof(SpongeVersus);
                     break;
 
+                // 6
+                case "PlazaDoor":
+                    type = typeof(PlazaDoor);
+                    break;
+
                 // 2
                 case "PaintTargetArea":
                     type = typeof(PaintTargetArea);
+                    break;
+                case "Bird":
+                    type = typeof(Bird);
                     break;
                 case "InkRailVersus":
                     type = typeof(InkRailVersus);
@@ -268,6 +276,12 @@ namespace SampleMapEditor
                     break;
                 case "VictoryLift":
                     type = typeof(VictoryLift);
+                    break;
+                case "PlazaNpcLocator":
+                    type = typeof(PlazaNpcLocator);
+                    break;
+                case "PlazaJerryLocator":
+                    type = typeof(PlazaJerryLocator);
                     break;
                 case "SpectatorCameraBoundingArea":
                     type = typeof(SpectatorCameraBoundingArea);
