@@ -86,11 +86,11 @@ namespace SampleMapEditor
             //ModeInclusion = ModeInclusion.FromDictionary(dictionary);
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            var dictLinks = dictionary["Links"] as Dictionary<string, object>;
-            Console.WriteLine($"Link Count: {dictLinks.Count}"); //Console.WriteLine($"Link Count: {((Dictionary<string, object>)dictionary["Links"]).Count}");
-            //Links = (Dictionary<string, List<LinkInfo>>)dictionary["Links"];
             try
             {
+                var dictLinks = dictionary["Links"] as Dictionary<string, object>;
+                Console.WriteLine($"Link Count: {dictLinks.Count}"); //Console.WriteLine($"Link Count: {((Dictionary<string, object>)dictionary["Links"]).Count}");
+                //Links = (Dictionary<string, List<LinkInfo>>)dictionary["Links"];
                 for (int i = 0; i < dictLinks.Keys.Count; i++)
                 {
                     string keyName = dictLinks.Keys.ElementAt(i);
