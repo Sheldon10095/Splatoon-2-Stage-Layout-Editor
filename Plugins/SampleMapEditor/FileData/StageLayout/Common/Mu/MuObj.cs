@@ -20,11 +20,19 @@ namespace SampleMapEditor
             Team = 0;
         }
 
+        // Copying Contstructor
+        public MuObj(MuObj other) : base(other)
+        {
+            Team = other.Team;
+        }
+
         public override MuObj Clone()
         {
-            MuObj cloned = (MuObj)base.Clone();
-            cloned.Team = this.Team;
-            return cloned;
+            //MuObj cloned = (MuObj)base.Clone();
+            //cloned.Team = this.Team;
+            //return cloned;
+
+            return new MuObj(this);
         }
 
 

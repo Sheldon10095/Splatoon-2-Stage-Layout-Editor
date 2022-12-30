@@ -70,7 +70,15 @@ namespace SampleMapEditor
         }
 
 
-
+        public MuElement(MuElement other)
+        {
+            LayerConfigName = other.LayerConfigName;
+            UnitConfigName = other.UnitConfigName;
+            Links = other.Links;
+            Scale = other.Scale;
+            Translate = other.Translate;
+            RotateDegrees = other.RotateDegrees;
+        }
 
 
 
@@ -248,7 +256,7 @@ namespace SampleMapEditor
 
         public virtual MuElement Clone()
         {
-            return new MuElement()
+            /*return new MuElement()
             {
                 LayerConfigName = this.LayerConfigName,
                 UnitConfigName = this.UnitConfigName,
@@ -256,7 +264,8 @@ namespace SampleMapEditor
                 Scale = this.Scale,
                 Translate = this.Translate,
                 RotateDegrees = this.RotateDegrees,
-            };
+            };*/
+            return new MuElement(this);
         }
 
         public static string GetActorClassName(MuElement element)
