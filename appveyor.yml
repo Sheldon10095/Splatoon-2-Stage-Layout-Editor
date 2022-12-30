@@ -26,6 +26,6 @@ artifacts:
 deploy:
 - provider: GitHub
   auth_token:
-    secure: wG2HHrG0zw/DSPJetBMe2SY57hDBAoxscnvOIEt7D1GEZkl8zhC2RbXG6MijypsN
+    secure: mZKiTeH1Oj2MFgRIqKieUif3+kB7nqIbPARkPceY/kY40aMWhdo702r3pBYNPGqr
   repository: Sheldon10095/Splatoon-2-Stage-Layout-Editor
   artifact: MapStudio
