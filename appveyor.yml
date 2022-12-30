@@ -1,0 +1,31 @@
+version: 1.0.{build}
+branches:
+  only:
+  - main
+configuration: Release
+platform: Any CPU
+install:
+- cmd: >-
+    cd %APPVEYOR_BUILD_FOLDER%
+
+    git submodule update --init --recursive
+before_build:
+- ps: nuget restore
+build:
+  verbosity: minimal
+after_build:
+- cmd: >-
+    7z a MapStudio-Latest.zip "%APPVEYOR_BUILD_FOLDER%\Track Studio\bin\Release\net5.0\"
+
+
+
+    appveyor PushArtifact "MapStudio-Latest.zip"
+artifacts:
+- path: MapStudio-Latest.zip
+  name: MapStudio
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: wG2HHrG0zw/DSPJetBMe2SY57hDBAoxscnvOIEt7D1GEZkl8zhC2RbXG6MijypsN
+  repository: Sheldon10095/Splatoon-2-Stage-Layout-Editor
+  artifact: MapStudio
