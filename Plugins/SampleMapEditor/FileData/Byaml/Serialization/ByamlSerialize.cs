@@ -247,9 +247,17 @@ namespace SampleMapEditor
                 case "Field":
                     // Keep as MuElement
                     break;
+
+                // 56
                 case "Jerry":
                     type = typeof(Jerry);
                     break;
+
+                // 16
+                case "Sponge":
+                    type = typeof(Sponge);
+                    break;
+
                 case "SpongeVersus":
                     type = typeof(SpongeVersus);
                     break;
@@ -273,6 +281,9 @@ namespace SampleMapEditor
                 // 1
                 case "Gachihoko":
                     type = typeof(Gachihoko);
+                    break;
+                case "Geyser":
+                    type = typeof(Geyser);
                     break;
                 case "VictoryLift":
                     type = typeof(VictoryLift);
